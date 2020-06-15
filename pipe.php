@@ -190,7 +190,7 @@ if (class_exists('EmailReplyParser\EmailReplyParser')
     }
 }
 
-// Trim message
+// Trim message abc
 $body = trim($body);
 $body = str_replace('&nbsp;', ' ', $body);
 // Remove html tags - strips inline styles also
