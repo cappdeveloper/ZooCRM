@@ -1,0 +1,12 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "php",
+      "project": "index.php",
+      "projectTarget": "",
+      "name": "index.php"
+    }
+  ]
+}
