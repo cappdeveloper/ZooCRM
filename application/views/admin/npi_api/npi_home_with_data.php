@@ -98,7 +98,7 @@
 );
 
       foreach($res->results as $sinle){
-
+      
         if($sinle->enumeration_type=='NPI-2'){
           $name = $sinle->basic->organization_name;
           $src="https://npiregistry.cms.hhs.gov/static/registry/img/glyphicons-90-building.png";
@@ -119,6 +119,8 @@
           'city'  =>$sinle->addresses[0]->city,
           'zip'  =>$sinle->addresses[0]->postal_code,
           'postcode'  =>$sinle->addresses[0]->postal_code,
+          'telephone_number'  =>$sinle->addresses[0]->telephone_number,
+          'fax_number'  =>$sinle->addresses[0]->fax_number,
       
   );
        
@@ -131,13 +133,13 @@
        */ 
       ?>
 
-                <td data-toggle="modal" data-target="#exampleModalCenter" class="detail_npi_data" number="<?php echo $sinle->number;?>" firstname="<?php echo $sinle->basic->first_name;?>" lastname="<?php echo $sinle->basic->last_name;?>" type="<?php echo $sinle->enumeration_type;?>" status="<?php echo $sinle->basic->status;?>"  sole_proprietor="<?php echo $sinle->basic->sole_proprietor;?>" mailing_address="<?php echo $sinle->addresses[0]->address_1." ".$sinle->addresses[0]->country_name;?>" primary_texo="<?php echo $sinle->taxonomies[0]->primary;?>" selected_texonomy="<?php echo $sinle->taxonomies[0]->desc;?>" texonomy_state="<?php echo $sinle->taxonomies[0]->state;?>" texonomy_license="<?php echo $sinle->taxonomies[0]->license;?>" img_icon="<?php echo $src;?>" enumeration_date="<?php echo $sinle->basic->enumeration_date;?>" last_updated="<?php echo $sinle->basic->last_updated;?>"  primary_address="<?php echo $sinle->addresses[0]->address_1." ".$sinle->addresses[0]->country_name;?>" ><a href="#"><?php echo $sinle->number;?></a></td>
+                <td data-toggle="modal" data-target="#exampleModalCenter" class="detail_npi_data" number="<?php echo $sinle->number;?>" firstname="<?php echo $sinle->basic->first_name;?>" lastname="<?php echo $sinle->basic->last_name;?>" type="<?php echo $sinle->enumeration_type;?>" status="<?php echo $sinle->basic->status;?>"  sole_proprietor="<?php echo $sinle->basic->sole_proprietor;?>" mailing_address="<?php echo $sinle->practiceLocations[0]->address_1." ".$sinle->practiceLocations[0]->country_name." ".$sinle->practiceLocations[0]->fax_number;?>" primary_texo="<?php echo $sinle->taxonomies[0]->primary;?>" selected_texonomy="<?php echo $sinle->taxonomies[0]->desc;?>" texonomy_state="<?php echo $sinle->taxonomies[0]->state;?>" texonomy_license="<?php echo $sinle->taxonomies[0]->license;?>" img_icon="<?php echo $src;?>" enumeration_date="<?php echo $sinle->basic->enumeration_date;?>" last_updated="<?php echo $sinle->basic->last_updated;?>"  primary_address="<?php echo $sinle->addresses[0]->address_1." ".$sinle->addresses[0]->country_name." ".$sinle->addresses[0]->fax_number;?>" ><a href="#"><?php echo $sinle->number;?></a></td>
                 <td><?php echo $name;?></td>
                 <td><img src="<?php echo $src;?>" alt="img"></td>
                 <td><?php echo $sinle->addresses[0]->country_code." ".$sinle->addresses[0]->country_name." ".$sinle->addresses[0]->address_1;?></td>
                 <td><?php echo $sinle->addresses[0]->telephone_number;?></td>
                 <td><?php echo $sinle->taxonomies[0]->desc;?></td>
-                <td class="import" number="<?php echo $sinle->number;?>" firstname="<?php echo $sinle->basic->first_name;?>" lastname="<?php echo $sinle->basic->last_name;?>" type="<?php echo $sinle->enumeration_type;?>"  country="<?php echo $sinle->addresses[0]->country_name;?>" city="<?php echo $sinle->addresses[0]->city;?>" state="<?php echo $sinle->addresses[0]->state;?>" zip="<?php echo $sinle->addresses[0]->postal_code;?>" address="<?php echo $sinle->addresses[0]->address_1;?>" added_date="<?php echo $sinle->basic->enumeration_date;?>" last_updated_date="<?php echo $sinle->basic->last_updated;?>"><a href="#">Import</a></td>
+                <td class="import" number="<?php echo $sinle->number;?>" firstname="<?php echo $sinle->basic->first_name;?>" lastname="<?php echo $sinle->basic->last_name;?>" type="<?php echo $sinle->enumeration_type;?>"  country="<?php echo $sinle->addresses[0]->country_name;?>" city="<?php echo $sinle->addresses[0]->city;?>" state="<?php echo $sinle->addresses[0]->state;?>" zip="<?php echo $sinle->addresses[0]->postal_code;?>" address="<?php echo $sinle->addresses[0]->address_1;?>" added_date="<?php echo $sinle->basic->enumeration_date;?>" last_updated_date="<?php echo $sinle->basic->last_updated;?>" phone="<?php echo $sinle->addresses[0]->telephone_number;?>"><a href="#">Import</a></td>
             </tr>
             <?php
             }
@@ -376,6 +378,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $(document).on('click','.import',function(){
+      alert($(this).attr('phone'));
          var number = $(this).attr('number');
          var firstname = $(this).attr('firstname');
          var lastname = $(this).attr('lastname');
@@ -387,6 +390,7 @@
          var address = $(this).attr('address');
          var added_date = $(this).attr('added_date');
          var last_updated_date = $(this).attr('last_updated_date');
+         var phone = $(this).attr('phone');
          //var number = $(this).attr('number');
      /*    $.ajax({
         url: 'http://localhost/schat/checkout.php',
@@ -397,7 +401,7 @@
             alert(response);
         }
     }); */
-    $.post("<?php echo base_url();?>/admin/Npi_api/ajax_get_response"/*'http://localhost/CRMwork-master/admin/Npi_api/ajax_get_response'*/, { number: number, firstname : firstname,lastname:lastname,type:type,country:country,city:city,state:state,zip:zip,address:address,last_updated_date:last_updated_date,added_date:added_date}, 
+    $.post("<?php echo base_url();?>/admin/Npi_api/ajax_get_response"/*'http://localhost/CRMwork-master/admin/Npi_api/ajax_get_response'*/, { number: number, firstname : firstname,lastname:lastname,type:type,country:country,city:city,state:state,zip:zip,address:address,last_updated_date:last_updated_date,added_date:added_date,phone:phone}, 
     function(returnedData){
      var actualData = JSON.parse(returnedData);
       if(!empty(actualData.message_exist)){

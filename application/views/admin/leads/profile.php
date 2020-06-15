@@ -178,6 +178,8 @@
                   <?php echo _l('lead_info'); ?>
                </h4>
             </div>
+            <p class="text-muted lead-field-heading no-mtop"><?php echo _l('lead_number'); ?></p>
+            <p class="bold font-medium-xs lead-name"><?php echo (isset($lead) && $lead->number != '' ? $lead->number : '-') ?></p>
             <p class="text-muted lead-field-heading no-mtop"><?php echo _l('lead_add_edit_name'); ?></p>
             <p class="bold font-medium-xs lead-name"><?php echo (isset($lead) && $lead->name != '' ? $lead->name : '-') ?></p>
             <p class="text-muted lead-field-heading"><?php echo _l('lead_title'); ?></p>
@@ -197,7 +199,7 @@
             <p class="text-muted lead-field-heading"><?php echo _l('lead_state'); ?></p>
             <p class="bold font-medium-xs"><?php echo (isset($lead) && $lead->state != '' ? $lead->state : '-') ?></p>
             <p class="text-muted lead-field-heading"><?php echo _l('lead_country'); ?></p>
-            <p class="bold font-medium-xs"><?php echo (isset($lead) && $lead->country != 0 ? get_country($lead->country)->short_name : '-') ?></p>
+            <p class="bold font-medium-xs"><?php echo (isset($lead) && $lead->country != '' ? $lead->country: '-')//get_country($lead->country)->short_name : '-') ?></p>
             <p class="text-muted lead-field-heading"><?php echo _l('lead_zip'); ?></p>
             <p class="bold font-medium-xs"><?php echo (isset($lead) && $lead->zip != '' ? $lead->zip : '-') ?></p>
          </div>
