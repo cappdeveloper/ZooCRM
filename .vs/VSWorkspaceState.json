@@ -1,10 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\application",
     "\\application\\views",
     "\\application\\views\\admin",
     "\\application\\views\\admin\\npi_api"
   ],
-  "SelectedNode": "\\index.php",
+  "SelectedNode": "\\application\\views\\admin\\npi_api\\npi_home.php",
   "PreviewInSolutionExplorer": false
 }
