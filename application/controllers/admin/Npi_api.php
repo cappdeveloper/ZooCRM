@@ -84,7 +84,8 @@ print_r($data);die;
 
    public function ajax_get_response(){
 
-
+/*print_R($this->input->post());
+die;*/
 
    $this->db->select('id');
             $this->db->select('id'); 
@@ -107,17 +108,17 @@ print_r($data);die;
         'state'=>$this->input->post('state'),
         'address'=>$this->input->post('address'),
         'assigned'=>'test',
-        'dateadded'=>$this->input->post('added_date'),
+        'dateadded'=>date('Y-m-d H:i:s'),
         'from_form_id'=>'test',
         'status'=>1,
         'source'=>3,
-        'lastcontact'=>$this->input->post('last_updated_date'),
+        'lastcontact'=>date('Y-m-d H:i:s'),
         'dateassigned'=>'',
         'last_status_change'=>'test',
         'addedfrom'=>'test',
         'email'=>'test',
         'website'=>'test',
-        'phonenumber'=>'test',
+        'phonenumber'=>$this->input->post('phone'),
         'date_converted'=>'',
         'lost'=>'test',
         'junk'=>'test',
@@ -175,17 +176,17 @@ print_r($data);die;
         'state'=>$sinle_data['state'],
         'address'=>$sinle_data['address'],
         'assigned'=>'',
-        'dateadded'=>$sinle_data['dateadded'],
+        'dateadded'=>date('Y-m-d H:i:s'),
         'from_form_id'=>'test',
         'status'=>1,
         'source'=>3,
-        'lastcontact'=>$sinle_data['last_updated'],
+        'lastcontact'=>date('Y-m-d H:i:s'),
         'dateassigned'=>'',
         'last_status_change'=>'test',
         'addedfrom'=>'test',
         'email'=>'test',
         'website'=>'test',
-        'phonenumber'=>'test',
+        'phonenumber'=>$sinle_data['telephone_number'],
         'date_converted'=>'',
         'lost'=>'test',
         'junk'=>'test',
