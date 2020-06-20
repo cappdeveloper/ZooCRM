@@ -137,6 +137,12 @@ function get_available_staff_permissions($data = [])
                 'delete' => _l('permission_delete'),
             ],
         ],
+          'Npi_Api' => [
+            'name'         => _l('Npi_api'),
+            'capabilities' => [
+                'view' => $viewGlobalName,
+            ],
+        ],
     ];
 
     $addLeadsPermission = true;
