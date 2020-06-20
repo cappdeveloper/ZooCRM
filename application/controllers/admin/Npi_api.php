@@ -2,7 +2,7 @@
 ini_set('max_execution_time', 0); 
 ini_set('memory_limit','2048M');
 //error_reporting(0);
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Npi_api extends AdminController
@@ -10,7 +10,7 @@ class Npi_api extends AdminController
     public function __construct()
     {
         parent::__construct();
-        //$this->load->model('knowledge_base_model');
+    
         $this->load->model('npi_model');
     }
 
@@ -24,68 +24,82 @@ class Npi_api extends AdminController
        */
         $this->load->view('admin/npi_api/npi_home', $data);
     }
-   public function npi_search_result(){
-    
-    //$this->load->view('admin/npi_api/npi_home', $data);
-    $this->load->helper('form');
-    if(!empty($this->input->post('exactMatch'))){
-        $true = TRUE;
-    }else{
-        $true = '';
-    }
-      $word = $this->input->post('taxonomy_description') ;
-     $t= strtoupper($word);
-// turn this into an array
-$a = explode(" ", $t );
+    /*******************************Search Npi Data******************************************************/
+   public function npi_search_result(){      
+         $this->load->helper('form');
 
-// output without final comma
-$texo =  implode("+", $a );
-    $curl = curl_init();
-
-curl_setopt_array($curl, array(
-  CURLOPT_URL => 'https://npiregistry.cms.hhs.gov/api/?version=2.1&number='.$this->input->post('number').'&enumeration_type='.$this->input->post('entity_type').'&taxonomy_description='.$texo.'&first_name='.$this->input->post('first_name').'&use_first_name_alias='.$this->input->post('use_first_name_alias').'&last_name='.$this->input->post('last_name').'&organization_name='.$this->input->post('organization_name').'&address_purpose='.$this->input->post('address_purpose').'&city='.$this->input->post('city').'&state='.$this->input->post('state').'&exactMatch='.$true.'&postal_code='.$this->input->post('postal_code').'&country_code='.$this->input->post('country').'&limit=8000&skip=&version=2.1',
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => "",
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 0,
-  CURLOPT_FOLLOWLOCATION => true,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "GET",
-  CURLOPT_POSTFIELDS => array('mcm ' => ' mdmm'),
-));
-
-$response = curl_exec($curl);
-
-curl_close($curl);
-$data['res'] = json_decode($response);
-/*echo "<pre>";
-print_r($data);die;
-  */
-  /* $data =   file_get_contents('https://npiregistry.cms.hhs.gov/api/?version=2.1&number='.$this->input->post('number').'&enumeration_type='.$this->input->post('entity_type').'&taxonomy_description='.$this->input->post('taxonomy_description').'&first_name='.$this->input->post('first_name').'&use_first_name_alias='.$this->input->post('use_first_name_alias').'&last_name='.$this->input->post('last_name').'&organization_name='.$this->input->post('organization_name').'&address_purpose='.$this->input->post('address_purpose').'&city='.$this->input->post('city').'&state='.$this->input->post('state').'&postal_code='.$this->input->post('postal_code').'&country_code='.$this->input->post('country').'&limit=8000&skip=&version=2.1');
-   print_r($data);die;*/
-    //$data = "https://npiregistry.cms.hhs.gov/registry/search-results-table?city=india&addressType=ANY&skip=100&skip=200";
-   //echo "<pre>";
-   //$inset_data = $data;//json_decode($data['res']);
-/*    foreach($data->results as $sinle){
-        //echo $sinle->number;die;
-         $data_to_insert = array(
-        'number'=>$sinle->number,
-        'first_name'=>$sinle->basic->first_name,
-        'last_name'=>$sinle->basic->last_name,
-        'primary_address'=>serialize($sinle->addresses),
-        'secondary_address'=>serialize($sinle->addresses),
-    );
-        //$this->db->insert('tblnpi_api_data',$data_to_insert);
-    }*/
-        //$this->session->set_userdata($data);
-
-        $this->load->view('admin/npi_api/npi_home_with_data', $data);
-   }
-
+     if($this->input->post('taxonomy_description')){
+              $this->db->select('Tax_value'); 
+            $this->db->from('tbltaxnomy_value');   
+            $this->db->where('Tax_Name', $this->input->post('taxonomy_description')); 
+            $taxonomy_code = $this->db->get()->result();  
+           
+            $t_code = $taxonomy_code[0]->Tax_value ;
+            $this->db->select('*'); 
+            $this->db->from('tblnpi_bulk');
+           $this->db->where('TaxonomyCode',  $t_code);
+        
+          
+          }
+      if($this->input->post('country')){
+             $this->db->select('*'); 
+            $this->db->from('tblnpi_bulk');
+            $this->db->where('BusinessCountry', $this->input->post('country'));
+          
+          }
+          if($this->input->post('postal_code')){
+             $this->db->select('*'); 
+            $this->db->from('tblnpi_bulk');
+            $this->db->where('BusinessPostal', $this->input->post('postal_code'));
+            
+          }
+           if($this->input->post('number')){
+            $this->db->select('*'); 
+            $this->db->from('tblnpi_bulk');
+            $this->db->where('NPI ', $this->input->post('number'));
+           
+      }
+       if($this->input->post('last_name')){
+             $this->db->select('*'); 
+            $this->db->from('tblnpi_bulk');
+            $this->db->where('LastName ', $this->input->post('last_name'));
+           
+      }
+       if($this->input->post('first_name')){
+               $this->db->select('*'); 
+            $this->db->from('tblnpi_bulk');
+            $this->db->where('FirstName ', $this->input->post('first_name'));
+         
+      }
+            $data['res'] = $this->db->get()->result();
+            /*echo "<pre>";
+            print_r($data);die;*/
+            $count =  count($data['res']);
+             if($count>1){
+             foreach($data['res'] as $sinle){
+               $texo_code = $sinle->TaxonomyCode;
+               $this->db->select('Tax_Name'); 
+               $this->db->from('tbltaxnomy_value');   
+               $this->db->where('Tax_value', $texo_code); 
+               $taxonomy_name = $this->db->get()->result();  
+               $t_name = $taxonomy_name[0]->Tax_Name ;
+               $sinle->TaxonomyCode = $t_name;
+            
+             }
+            }else{
+              $texo_code = $data['res'][0]->TaxonomyCode;
+              $this->db->select('Tax_Name'); 
+              $this->db->from('tbltaxnomy_value');   
+              $this->db->where('Tax_value', $texo_code); 
+              $taxonomy_name = $this->db->get()->result();  
+             $t_name = $taxonomy_name[0]->Tax_Name ;
+             $data['res'][0]->TaxonomyCode = $t_name;
+            }
+              $this->load->view('admin/npi_api/npi_home_with_data', $data);
+         }
+/************************************Import Single Row From Table***********************************************/
    public function ajax_get_response(){
 
-/*print_R($this->input->post());
-die;*/
 
    $this->db->select('id');
             $this->db->select('id'); 
@@ -136,23 +150,18 @@ die;*/
             $this->npi_model->add_log($insert_id);
             $error = ['message'=>"Records Imported Successfully"];
                 echo json_encode($error);
-        }/*else{
-           // $error = ['message'=>"Records Imported Successfully"];
-                echo json_encode($error);
-        }*/
+        }
 
       }
    }
   
-
+/****************************************Bulk Import Code**********************************************/
   public function bulk_import(){
    $data = $this->input->post();
    $Successfully=0;
    $failed=0;
    $alredy_exist=0;
-   //print_R($data['results']);die;
    foreach($data['results'] as $sinle_data){
-    //echo $sinle_data['enumeration_type'];die;
      $this->db->select('id');
             $this->db->select('id'); 
             $this->db->from('tblleads');   
@@ -160,8 +169,7 @@ die;*/
             $id = $this->db->get()->result();
             if(!empty($id[0]->id)){
               $alredy_exist= $alredy_exist+1;
-              /*$error = ['message_exist'=>"This record already exist"];
-                echo json_encode($error);*/
+              
             }else{
 
              $data_to_insert = array(
@@ -204,9 +212,7 @@ die;*/
             $this->npi_model->add_log($insert_id);
             $Successfully = $Successfully+1;
         }else{
-          $failed= $failed+1; 
-            /*$error = ['message'=>"Records are not Imported Successfully"];
-                echo json_encode($error);*/
+          $failed= $failed+1;
         }
    }
 }

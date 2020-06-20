@@ -59,16 +59,6 @@
                        <button class="btn mright5 btn-info pull-left display-block" id="bulk_import">Import Bulk Data</button>
                     </div>
                  <hr class="hr-panel-heading">
-                      
-                        <?php  /*echo "<pre>";
-      $ress = json_decode($res);
-      //print_r($ress->results);die;
-      foreach($ress->results as $sinle){
-        print_r($sinle);die;
-      }*/
-
-   ?>
-
 
    <table id="npi_data" class="display" style="width:100%">
         <thead>
@@ -87,18 +77,17 @@
             <tr>
       <?php
       $ress = $this->session->userdata();
-      /*$r = $ress['res'];
-      $ress = json_decode($r);*/
-     /* echo "<pre>";
-     print_r($res);*/
-    // $data_for_bulk1 = [];
-   $data_ajax = array(
-  "success" => false,
-  "results" => array()
-);
+        
+           $data_ajax = array(
+          "success" => false,
+          "results" => array()
+       );
 
-      foreach($res->results as $sinle){
-      
+   $count =  count($res);
+  
+       if($count>1){
+      foreach($res as $sinle){
+     // print_R($sinle);
         if($sinle->enumeration_type=='NPI-2'){
           $name = $sinle->basic->organization_name;
           $src="https://npiregistry.cms.hhs.gov/static/registry/img/glyphicons-90-building.png";
@@ -108,19 +97,19 @@
         }
           
          $data_ajax['results'][] = array(
-          'number' => $sinle->number,
+          'number' => $sinle->NPI,
           'enumeration_type' => $sinle->enumeration_type,
-          'address' => $sinle->addresses[0]->address_1,
-          'country' => $sinle->addresses[0]->country_name,
-          'dateadded' => $sinle->basic->enumeration_date,
-          'name'  =>$name,
-          'last_updated'  =>$sinle->basic->last_updated,
-          'state'  =>$sinle->addresses[0]->state,
-          'city'  =>$sinle->addresses[0]->city,
-          'zip'  =>$sinle->addresses[0]->postal_code,
-          'postcode'  =>$sinle->addresses[0]->postal_code,
-          'telephone_number'  =>$sinle->addresses[0]->telephone_number,
-          'fax_number'  =>$sinle->addresses[0]->fax_number,
+          'address' => $sinle->FirstLineBusinessMailingAddress,
+          'country' => $sinle->BusinessCountry,
+          'dateadded' => $sinle->EnumerationDate,
+          'name'  =>$sinle->FirstName.$sinle->LastName,
+          'last_updated'  =>$sinle->LastUpdate,
+          'state'  =>$sinle->BusinessState,
+          'city'  =>$sinle->BusinessCity,
+          'zip'  =>$sinle->BusinessPostal,
+          'postcode'  =>$sinle->BusinessPostal,
+          'telephone_number'  =>$sinle->BusinessTelephone,
+          'fax_number'  =>$sinle->BusinessFax,
       
   );
        
@@ -133,16 +122,48 @@
        */ 
       ?>
 
-                <td data-toggle="modal" data-target="#exampleModalCenter" class="detail_npi_data" number="<?php echo $sinle->number;?>" firstname="<?php echo $sinle->basic->first_name;?>" lastname="<?php echo $sinle->basic->last_name;?>" type="<?php echo $sinle->enumeration_type;?>" status="<?php echo $sinle->basic->status;?>"  sole_proprietor="<?php echo $sinle->basic->sole_proprietor;?>" mailing_address="<?php echo $sinle->practiceLocations[0]->address_1." ".$sinle->practiceLocations[0]->country_name." ".$sinle->practiceLocations[0]->fax_number;?>" primary_texo="<?php echo $sinle->taxonomies[0]->primary;?>" selected_texonomy="<?php echo $sinle->taxonomies[0]->desc;?>" texonomy_state="<?php echo $sinle->taxonomies[0]->state;?>" texonomy_license="<?php echo $sinle->taxonomies[0]->license;?>" img_icon="<?php echo $src;?>" enumeration_date="<?php echo $sinle->basic->enumeration_date;?>" last_updated="<?php echo $sinle->basic->last_updated;?>"  primary_address="<?php echo $sinle->addresses[0]->address_1." ".$sinle->addresses[0]->country_name." ".$sinle->addresses[0]->fax_number;?>" ><a href="#"><?php echo $sinle->number;?></a></td>
-                <td><?php echo $name;?></td>
+                <td data-toggle="modal" data-target="#exampleModalCenter" class="detail_npi_data" number="<?php echo $sinle->NPI;?>" firstname="<?php echo $sinle->FirstName;?>" lastname="<?php echo $sinle->LastName;?>" type="" status=""  sole_proprietor="<?php echo $sinle->Is_Sole_Proprietor;?>" mailing_address="<?php echo $sinle->FirstLineBusinessMailingAddress." ".$sinle->BusinessCountry." ".$sinle->BusinessPostal;?>" primary_texo="<?php echo $sinle->TaxonomyCode;?>" selected_texonomy="<?php echo $sinle->TaxonomyCode;?>" texonomy_state="<?php echo $sinle->StateCode_1;?>" texonomy_license="<?php echo $sinle->LicenseNumber_1?>" img_icon="<?php echo $src;?>" enumeration_date="<?php echo $sinle->EnumerationDate;?>" last_updated="<?php echo $sinle->LastUpdate;?>"  primary_address="<?php echo $sinle->FirstPracticeAddress." ".$sinle->PracticeCountry." ".$sinle->PracticePostal;?>" ><a href="#"><?php echo $sinle->NPI;?></a></td>
+                <td><?php echo $sinle->FirstName." ".$sinle->LastName;?></td>
                 <td><img src="<?php echo $src;?>" alt="img"></td>
-                <td><?php echo $sinle->addresses[0]->country_code." ".$sinle->addresses[0]->country_name." ".$sinle->addresses[0]->address_1;?></td>
-                <td><?php echo $sinle->addresses[0]->telephone_number;?></td>
-                <td><?php echo $sinle->taxonomies[0]->desc;?></td>
-                <td class="import" number="<?php echo $sinle->number;?>" firstname="<?php echo $sinle->basic->first_name;?>" lastname="<?php echo $sinle->basic->last_name;?>" type="<?php echo $sinle->enumeration_type;?>"  country="<?php echo $sinle->addresses[0]->country_name;?>" city="<?php echo $sinle->addresses[0]->city;?>" state="<?php echo $sinle->addresses[0]->state;?>" zip="<?php echo $sinle->addresses[0]->postal_code;?>" address="<?php echo $sinle->addresses[0]->address_1;?>" added_date="<?php echo $sinle->basic->enumeration_date;?>" last_updated_date="<?php echo $sinle->basic->last_updated;?>" phone="<?php echo $sinle->addresses[0]->telephone_number;?>"><a href="#">Import</a></td>
+                <td><?php echo $sinle->FirstLineBusinessMailingAddress;?></td>
+                <td><?php echo $sinle->BusinessTelephone;?></td>
+                <td><?php echo $sinle->TaxonomyCode;?></td>
+                <td class="import" number="<?php echo $sinle->NPI;?>" firstname="<?php echo $sinle->FirstName;?>" lastname="<?php echo $sinle->LastName;?>" type="<?php //echo $sinle->enumeration_type;?>"  country="<?php echo $sinle->BusinessCountry;?>" city="<?php echo $sinle->BusinessCity;?>" state="<?php echo $sinle->BusinessState;?>" zip="<?php echo $sinle->BusinessPostal;?>" address="<?php echo $sinle->FirstLineBusinessMailingAddress;?>" added_date="<?php echo $sinle->EnumerationDate;?>" last_updated_date="<?php echo $sinle->LastUpdate;?>" phone="<?php echo $sinle->BusinessTelephone;?>"><a href="#">Import</a></td>
             </tr>
             <?php
             }
+          }else{
+           
+            $data_ajax['results'][] = array(
+          'number' => $res[0]->NPI,
+          'enumeration_type' => $res[0]->EntityCode,
+          'address' => $res[0]->FirstLineBusinessMailingAddress,
+          'country' => $res[0]->BusinessCountry,
+          'dateadded' => $res[0]->EnumerationDate,
+          'name'  =>$res[0]->FirstName.$sinle->LastName,
+          'last_updated'  =>$res[0]->LastUpdate,
+          'state'  =>$res[0]->BusinessState,
+          'city'  =>$res[0]->BusinessCity,
+          'zip'  =>$res[0]->BusinessPostal,
+          'postcode'  =>$res[0]->BusinessPostal,
+          'telephone_number'  =>$res[0]->BusinessTelephone,
+          'fax_number'  =>$res[0]->BusinessFax,
+      
+       );
+      
+      ?>
+
+                <td data-toggle="modal" data-target="#exampleModalCenter" class="detail_npi_data" number="<?php echo $res[0]->NPI;?>" firstname="<?php echo $res[0]->FirstName;?>" lastname="<?php echo $res[0]->LastName;?>" type="" status=""  sole_proprietor="<?php echo $res[0]->Is_Sole_Proprietor;?>" mailing_address="<?php echo $res[0]->FirstLineBusinessMailingAddress." ".$res[0]->BusinessCountry." ".$res[0]->BusinessPostal;?>" primary_texo="<?php echo $res[0]->TaxonomyCode;?>" selected_texonomy="<?php echo $res[0]->TaxonomyCode;?>" texonomy_state="<?php echo $res[0]->StateCode_1;?>" texonomy_license="<?php echo $res[0]->LicenseNumber_1;?>" img_icon="<?php echo $src;?>" enumeration_date="<?php echo $res[0]->EnumerationDate;?>" last_updated="<?php echo $res[0]->LastUpdate;?>"  primary_address=" <?php echo $res[0]->FirstPracticeAddress;?>" ><a href="#"><?php echo $res[0]->NPI;?></a></td>
+                <td><?php echo $res[0]->FirstName." ".$res[0]->LastName;?></td>
+                <td><img src="<?php echo $src;?>" alt="img"></td>
+                <td><?php echo $res[0]->FirstLineBusinessMailingAddress;?></td>
+                <td><?php echo $res[0]->BusinessTelephone;?></td>
+                <td><?php echo $res[0]->TaxonomyCode;?></td>
+                <td class="import" number="<?php echo $res[0]->NPI;?>" firstname="<?php echo $res[0]->FirstName;?>" lastname="<?php echo $res[0]->LastName;?>" type="<?php //echo $sinle->enumeration_type;?>"  country="<?php echo $res[0]->BusinessCountry;?>" city="<?php echo $res[0]->BusinessCity;?>" state="<?php echo $res[0]->BusinessState;?>" zip="<?php echo $res[0]->BusinessPostal;?>" address="<?php echo $res[0]->FirstLineBusinessMailingAddress;?>" added_date="<?php echo $res[0]->EnumerationDate;?>" last_updated_date="<?php echo $res[0]->LastUpdate;?>" phone="<?php echo $res[0]->BusinessTelephone;?>"><a href="#">Import</a></td>
+            </tr>
+
+            <?php
+          }
    ?>
    <!-- <h1><?php //echo "dcc"; print_r($data);?></h1> -->
         </tbody>
@@ -247,10 +268,7 @@
              <tr>
               <td>Mailing Address</td>
               <td id="mailing_address"> 
-            
-            
-  
-                
+          
               
               </td>
             </tr>
@@ -378,7 +396,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $(document).on('click','.import',function(){
-      alert($(this).attr('phone'));
+      
          var number = $(this).attr('number');
          var firstname = $(this).attr('firstname');
          var lastname = $(this).attr('lastname');
@@ -439,6 +457,7 @@ $('#overlay').show();
     function(returnedData){
       $('#overlay').hide();
      var actualData = JSON.parse(returnedData);
+     alert(actualData);
       if(!empty(actualData.message_exist)){
           swal("Result", actualData.message_exist, "error");
       }
