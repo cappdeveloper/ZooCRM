@@ -377,7 +377,7 @@
     </div>
 
 <?php init_tail(); ?>
-<?php $this->load->view('admin/reports/includes/sales_js'); ?>
+<!-- <?php $this->load->view('admin/reports/includes/sales_js'); ?> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
