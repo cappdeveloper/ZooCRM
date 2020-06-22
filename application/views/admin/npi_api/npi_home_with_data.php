@@ -87,7 +87,6 @@
   
        if($count>1){
       foreach($res as $sinle){
-     // print_R($sinle);
         if($sinle->enumeration_type=='NPI-2'){
           $name = $sinle->basic->organization_name;
           $src="https://npiregistry.cms.hhs.gov/static/registry/img/glyphicons-90-building.png";
@@ -165,7 +164,6 @@
             <?php
           }
    ?>
-   <!-- <h1><?php //echo "dcc"; print_r($data);?></h1> -->
         </tbody>
     </table>
 
@@ -427,7 +425,6 @@
       }
      swal("Result", actualData.message, "success");
 
-      //alert(returnedData);
          console.log(returnedData.message);
 }).fail(function(){
       console.log("error");
@@ -457,13 +454,11 @@ $('#overlay').show();
     function(returnedData){
       $('#overlay').hide();
      var actualData = JSON.parse(returnedData);
-     alert(actualData);
       if(!empty(actualData.message_exist)){
           swal("Result", actualData.message_exist, "error");
       }
      swal("Result", actualData.message, "success");
 
-      //alert(returnedData);
          console.log(returnedData.message);
 }).fail(function(){
       console.log("error");

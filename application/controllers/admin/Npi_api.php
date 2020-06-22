@@ -35,38 +35,38 @@ class Npi_api extends AdminController
             $taxonomy_code = $this->db->get()->result();  
            
             $t_code = $taxonomy_code[0]->Tax_value ;
-            $this->db->select('*'); 
+            $this->db->select('NPI,FirstName,LastName,TaxonomyCode,LicenseNumber_1,StateCode_1,FirstLineBusinessMailingAddress,BusinessCountry,BusinessPostal,EnumerationDate,LastUpdate,FirstPracticeAddress,PracticeCountry,PracticePostal,BusinessTelephone'); 
             $this->db->from('tblnpi_bulk');
            $this->db->where('TaxonomyCode',  $t_code);
         
           
           }
       if($this->input->post('country')){
-             $this->db->select('*'); 
+             $this->db->select('NPI,FirstName,LastName,TaxonomyCode,LicenseNumber_1,StateCode_1,FirstLineBusinessMailingAddress,BusinessCountry,BusinessPostal,EnumerationDate,LastUpdate,FirstPracticeAddress,PracticeCountry,PracticePostal,BusinessTelephone');  
             $this->db->from('tblnpi_bulk');
             $this->db->where('BusinessCountry', $this->input->post('country'));
           
           }
           if($this->input->post('postal_code')){
-             $this->db->select('*'); 
+             $this->db->select('NPI,FirstName,LastName,TaxonomyCode,LicenseNumber_1,StateCode_1,FirstLineBusinessMailingAddress,BusinessCountry,BusinessPostal,EnumerationDate,LastUpdate,FirstPracticeAddress,PracticeCountry,PracticePostal,BusinessTelephone'); 
             $this->db->from('tblnpi_bulk');
             $this->db->where('BusinessPostal', $this->input->post('postal_code'));
             
           }
            if($this->input->post('number')){
-            $this->db->select('*'); 
+            $this->db->select('NPI,FirstName,LastName,TaxonomyCode,LicenseNumber_1,StateCode_1,FirstLineBusinessMailingAddress,BusinessCountry,BusinessPostal,EnumerationDate,LastUpdate,FirstPracticeAddress,PracticeCountry,PracticePostal,BusinessTelephone');  
             $this->db->from('tblnpi_bulk');
             $this->db->where('NPI ', $this->input->post('number'));
            
       }
        if($this->input->post('last_name')){
-             $this->db->select('*'); 
+            $this->db->select('NPI,FirstName,LastName,TaxonomyCode,LicenseNumber_1,StateCode_1,FirstLineBusinessMailingAddress,BusinessPostal,BusinessCountry,EnumerationDate,LastUpdate,FirstPracticeAddress,PracticeCountry,PracticePostal,BusinessTelephone');  
             $this->db->from('tblnpi_bulk');
             $this->db->where('LastName ', $this->input->post('last_name'));
            
       }
        if($this->input->post('first_name')){
-               $this->db->select('*'); 
+              $this->db->select('NPI,FirstName,LastName,TaxonomyCode,LicenseNumber_1,StateCode_1,FirstLineBusinessMailingAddress,BusinessCountry,BusinessPostal,EnumerationDate,LastUpdate,FirstPracticeAddress,PracticeCountry,PracticePostal,BusinessTelephone'); 
             $this->db->from('tblnpi_bulk');
             $this->db->where('FirstName ', $this->input->post('first_name'));
          
