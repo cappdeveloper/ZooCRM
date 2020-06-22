@@ -87,12 +87,13 @@
   
        if($count>1){
       foreach($res as $sinle){
-        if($sinle->enumeration_type=='NPI-2'){
-          $name = $sinle->basic->organization_name;
+        if($sinle->EntityCode=='2'){
+          $type = 'Organization';
           $src="https://npiregistry.cms.hhs.gov/static/registry/img/glyphicons-90-building.png";
         }else{
-          $name = $sinle->basic->first_name." ".$sinle->basic->last_name;
+          //$name = $sinle->basic->first_name." ".$sinle->basic->last_name;
           $src = "https://npiregistry.cms.hhs.gov/static/registry/img/glyphicons-4-user.png";
+          $type = 'Individual';
         }
           
          $data_ajax['results'][] = array(
@@ -121,18 +122,24 @@
        */ 
       ?>
 
-                <td data-toggle="modal" data-target="#exampleModalCenter" class="detail_npi_data" number="<?php echo $sinle->NPI;?>" firstname="<?php echo $sinle->FirstName;?>" lastname="<?php echo $sinle->LastName;?>" type="" status=""  sole_proprietor="<?php echo $sinle->Is_Sole_Proprietor;?>" mailing_address="<?php echo $sinle->FirstLineBusinessMailingAddress." ".$sinle->BusinessCountry." ".$sinle->BusinessPostal;?>" primary_texo="<?php echo $sinle->TaxonomyCode;?>" selected_texonomy="<?php echo $sinle->TaxonomyCode;?>" texonomy_state="<?php echo $sinle->StateCode_1;?>" texonomy_license="<?php echo $sinle->LicenseNumber_1?>" img_icon="<?php echo $src;?>" enumeration_date="<?php echo $sinle->EnumerationDate;?>" last_updated="<?php echo $sinle->LastUpdate;?>"  primary_address="<?php echo $sinle->FirstPracticeAddress." ".$sinle->PracticeCountry." ".$sinle->PracticePostal;?>" ><a href="#"><?php echo $sinle->NPI;?></a></td>
+                <td data-toggle="modal" data-target="#exampleModalCenter" class="detail_npi_data" number="<?php echo $sinle->NPI;?>" firstname="<?php echo $sinle->FirstName;?>" lastname="<?php echo $sinle->LastName;?>" type="<?php echo $type;?>" status=""  sole_proprietor="<?php echo $sinle->Is_Sole_Proprietor;?>" mailing_address="<?php echo $sinle->FirstLineBusinessMailingAddress." ".$sinle->BusinessCountry." ".$sinle->BusinessPostal;?>" primary_texo="<?php echo $sinle->TaxonomyCode;?>" selected_texonomy="<?php echo $sinle->TaxonomyCode;?>" texonomy_state="<?php echo $sinle->StateCode_1;?>" texonomy_license="<?php echo $sinle->LicenseNumber_1?>" img_icon="<?php echo $src;?>" enumeration_date="<?php echo $sinle->EnumerationDate;?>" last_updated="<?php echo $sinle->LastUpdate;?>"  primary_address="<?php echo $sinle->FirstPracticeAddress." ".$sinle->PracticeCountry." ".$sinle->PracticePostal;?>" ><a href="#"><?php echo $sinle->NPI;?></a></td>
                 <td><?php echo $sinle->FirstName." ".$sinle->LastName;?></td>
                 <td><img src="<?php echo $src;?>" alt="img"></td>
                 <td><?php echo $sinle->FirstLineBusinessMailingAddress;?></td>
                 <td><?php echo $sinle->BusinessTelephone;?></td>
                 <td><?php echo $sinle->TaxonomyCode;?></td>
-                <td class="import" number="<?php echo $sinle->NPI;?>" firstname="<?php echo $sinle->FirstName;?>" lastname="<?php echo $sinle->LastName;?>" type="<?php //echo $sinle->enumeration_type;?>"  country="<?php echo $sinle->BusinessCountry;?>" city="<?php echo $sinle->BusinessCity;?>" state="<?php echo $sinle->BusinessState;?>" zip="<?php echo $sinle->BusinessPostal;?>" address="<?php echo $sinle->FirstLineBusinessMailingAddress;?>" added_date="<?php echo $sinle->EnumerationDate;?>" last_updated_date="<?php echo $sinle->LastUpdate;?>" phone="<?php echo $sinle->BusinessTelephone;?>"><a href="#">Import</a></td>
+                <td class="import" number="<?php echo $sinle->NPI;?>" firstname="<?php echo $sinle->FirstName;?>" lastname="<?php echo $sinle->LastName;?>" type="<?php echo $type;?>"  country="<?php echo $sinle->BusinessCountry;?>" city="<?php echo $sinle->BusinessCity;?>" state="<?php echo $sinle->BusinessState;?>" zip="<?php echo $sinle->BusinessPostal;?>" address="<?php echo $sinle->FirstLineBusinessMailingAddress;?>" added_date="<?php echo $sinle->EnumerationDate;?>" last_updated_date="<?php echo $sinle->LastUpdate;?>" phone="<?php echo $sinle->BusinessTelephone;?>"><a href="#">Import</a></td>
             </tr>
             <?php
             }
           }else{
-           
+           if($$res[0]->EntityCode=='2'){
+            $type = 'Organization';
+            $src="https://npiregistry.cms.hhs.gov/static/registry/img/glyphicons-90-building.png";
+           }else{
+            $type = 'Individual';
+             $src = "https://npiregistry.cms.hhs.gov/static/registry/img/glyphicons-4-user.png";
+           }
             $data_ajax['results'][] = array(
           'number' => $res[0]->NPI,
           'enumeration_type' => $res[0]->EntityCode,
@@ -152,13 +159,13 @@
       
       ?>
 
-                <td data-toggle="modal" data-target="#exampleModalCenter" class="detail_npi_data" number="<?php echo $res[0]->NPI;?>" firstname="<?php echo $res[0]->FirstName;?>" lastname="<?php echo $res[0]->LastName;?>" type="" status=""  sole_proprietor="<?php echo $res[0]->Is_Sole_Proprietor;?>" mailing_address="<?php echo $res[0]->FirstLineBusinessMailingAddress." ".$res[0]->BusinessCountry." ".$res[0]->BusinessPostal;?>" primary_texo="<?php echo $res[0]->TaxonomyCode;?>" selected_texonomy="<?php echo $res[0]->TaxonomyCode;?>" texonomy_state="<?php echo $res[0]->StateCode_1;?>" texonomy_license="<?php echo $res[0]->LicenseNumber_1;?>" img_icon="<?php echo $src;?>" enumeration_date="<?php echo $res[0]->EnumerationDate;?>" last_updated="<?php echo $res[0]->LastUpdate;?>"  primary_address=" <?php echo $res[0]->FirstPracticeAddress;?>" ><a href="#"><?php echo $res[0]->NPI;?></a></td>
+                <td data-toggle="modal" data-target="#exampleModalCenter" class="detail_npi_data" number="<?php echo $res[0]->NPI;?>" firstname="<?php echo $res[0]->FirstName;?>" lastname="<?php echo $res[0]->LastName;?>" type="<?php echo $type;?>" status=""  sole_proprietor="<?php echo $res[0]->Is_Sole_Proprietor;?>" mailing_address="<?php echo $res[0]->FirstLineBusinessMailingAddress." ".$res[0]->BusinessCountry." ".$res[0]->BusinessPostal;?>" primary_texo="<?php echo $res[0]->TaxonomyCode;?>" selected_texonomy="<?php echo $res[0]->TaxonomyCode;?>" texonomy_state="<?php echo $res[0]->StateCode_1;?>" texonomy_license="<?php echo $res[0]->LicenseNumber_1;?>" img_icon="<?php echo $src;?>" enumeration_date="<?php echo $res[0]->EnumerationDate;?>" last_updated="<?php echo $res[0]->LastUpdate;?>"  primary_address=" <?php echo $res[0]->FirstPracticeAddress;?>" ><a href="#"><?php echo $res[0]->NPI;?></a></td>
                 <td><?php echo $res[0]->FirstName." ".$res[0]->LastName;?></td>
                 <td><img src="<?php echo $src;?>" alt="img"></td>
                 <td><?php echo $res[0]->FirstLineBusinessMailingAddress;?></td>
                 <td><?php echo $res[0]->BusinessTelephone;?></td>
                 <td><?php echo $res[0]->TaxonomyCode;?></td>
-                <td class="import" number="<?php echo $res[0]->NPI;?>" firstname="<?php echo $res[0]->FirstName;?>" lastname="<?php echo $res[0]->LastName;?>" type="<?php //echo $sinle->enumeration_type;?>"  country="<?php echo $res[0]->BusinessCountry;?>" city="<?php echo $res[0]->BusinessCity;?>" state="<?php echo $res[0]->BusinessState;?>" zip="<?php echo $res[0]->BusinessPostal;?>" address="<?php echo $res[0]->FirstLineBusinessMailingAddress;?>" added_date="<?php echo $res[0]->EnumerationDate;?>" last_updated_date="<?php echo $res[0]->LastUpdate;?>" phone="<?php echo $res[0]->BusinessTelephone;?>"><a href="#">Import</a></td>
+                <td class="import" number="<?php echo $res[0]->NPI;?>" firstname="<?php echo $res[0]->FirstName;?>" lastname="<?php echo $res[0]->LastName;?>" type="<?php echo $type;?>"  country="<?php echo $res[0]->BusinessCountry;?>" city="<?php echo $res[0]->BusinessCity;?>" state="<?php echo $res[0]->BusinessState;?>" zip="<?php echo $res[0]->BusinessPostal;?>" address="<?php echo $res[0]->FirstLineBusinessMailingAddress;?>" added_date="<?php echo $res[0]->EnumerationDate;?>" last_updated_date="<?php echo $res[0]->LastUpdate;?>" phone="<?php echo $res[0]->BusinessTelephone;?>"><a href="#">Import</a></td>
             </tr>
 
             <?php

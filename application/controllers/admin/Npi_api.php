@@ -34,38 +34,48 @@ class Npi_api extends AdminController
             $this->db->where('Tax_Name', $this->input->post('taxonomy_description')); 
             $taxonomy_code = $this->db->get()->result();  
             $t_code = $taxonomy_code[0]->Tax_value ;
-            $arrayName['TaxonomyCode'] = $t_code;
+            $where['TaxonomyCode'] = $t_code;
           }
       if($this->input->post('country')){
-            $arrayName['BusinessCountry'] = $this->input->post('country');
+            $where['BusinessCountry'] = $this->input->post('country');
           
           }
           if($this->input->post('postal_code')){
-             $arrayName['BusinessPostal'] = $this->input->post('postal_code');
+             $where['BusinessPostal'] = $this->input->post('postal_code');
             
           }
 
            if($this->input->post('number')){
       
-            $arrayName['NPI'] = $this->input->post('number');
+            $where['NPI'] = $this->input->post('number');
           }
            if($this->input->post('last_name')){
-                $arrayName['LastName'] = $this->input->post('last_name');
+                $where['LastName'] = $this->input->post('last_name');
                
           }
            if($this->input->post('first_name')){
-                  $arrayName['FirstName'] = $this->input->post('first_name');
+                  $where['FirstName'] = $this->input->post('first_name');
              
           }
          if($this->input->post('state')){
-                $arrayName['BusinessState'] = $this->input->post('state');
+                $where['BusinessState'] = $this->input->post('state');
 
             }
-          $this->db->select('NPI,FirstName,LastName,TaxonomyCode,LicenseNumber_1,StateCode_1,FirstLineBusinessMailingAddress,BusinessCountry,BusinessPostal,EnumerationDate,LastUpdate,FirstPracticeAddress,PracticeCountry,PracticePostal,BusinessTelephone'); 
+             if($this->input->post('entity_type')){
+              if($this->input->post('entity_type')=='NPI-2'){
+                $entity_type = 2;
+              }else{
+                $entity_type = 1;
+              }
+                $where['EntityCode'] = $entity_type;
+                
+
+            }
+          $this->db->select('NPI,FirstName,LastName,TaxonomyCode,LicenseNumber_1,StateCode_1,FirstLineBusinessMailingAddress,BusinessCountry,BusinessPostal,EnumerationDate,LastUpdate,FirstPracticeAddress,PracticeCountry,PracticePostal,BusinessTelephone,EntityCode'); 
             $this->db->from('tblnpi_bulk');
             
 
-            $this->db->where($arrayName); 
+            $this->db->where($where); 
             $data['res'] = $this->db->get()->result();
            
             $count =  count($data['res']);
