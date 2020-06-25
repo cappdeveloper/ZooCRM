@@ -38,15 +38,23 @@ class Npi_Data extends AdminController
            $a=$this->totalNPI();
 
           $data = array();
-$count= 0;
+          $count= 0;
           foreach($books as $r) {
+          $query = $this->db->select("*")->from("tbltaxnomy_value")->where('Tax_value',$r->TaxonomyCode);
+
+        $result = $this->db->get()->result();
+        
+          $r->TaxonomyCode = $result[0]->Tax_Name;
+
+        
             $count++;
                $data[] = array(
                     $r->NPI,
+                    $r->FirstName." ".$r->LastName,
                     $r->EntityCode,
-                    $r->FirstName,
-                    $r->LastName,
-                    $r->BusinessTelephone
+                    $r->FirstPracticeAddress,
+                    $r->PracticeTelephone,
+                    $r->TaxonomyCode
                );
           }
 
@@ -72,7 +80,7 @@ $count= 0;
 
     public function GetAPIData($start,$length)
     {
-        $this->db->select('*');
+        $this->db->select('NPI,EntityCode,FirstName,LastName,FirstPracticeAddress,PracticeTelephone,TaxonomyCode');
         $this->db->from('tblnpi_bulk');
         $this->db->limit($length,$start);
 

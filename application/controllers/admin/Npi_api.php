@@ -99,9 +99,9 @@ class Npi_api extends AdminController
              $t_name = $taxonomy_name[0]->Tax_Name ;
              $data['res'][0]->TaxonomyCode = $t_name;
             }
-            //echo "<pre>";
+           // echo "<pre>";
             //print_R(json_encode($data['res']));die;
-              $this->load->view('admin/npi_api/npi_home_with_data', json_encode($data['res']));
+              $this->load->view('admin/npi_api/npi_home_with_data', $data);
          }
 /************************************Import Single Row From Table***********************************************/
    public function ajax_get_response(){

@@ -32,7 +32,7 @@
     <h1>NPI DATA</h1>
     <table id="book-table">
 <thead>
-<tr><td>NPI</td><td>Entity</td><td>Firstname</td><td>Lastname</td><td>Mobile</td></tr>
+<tr><td>NPI</td><td>Name</td><td>Npi Type</td><td>Primary Practice Address</td><td>Phone </td><td>Primary Taxonomy</td></tr>
 </thead>
 <tbody>
 </tbody>
