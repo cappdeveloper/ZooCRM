@@ -2,10 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\application",
+    "\\application\\controllers",
+    "\\application\\controllers\\admin",
     "\\application\\views",
     "\\application\\views\\admin",
-    "\\application\\views\\admin\\npi_api"
+    "\\application\\views\\admin\\npi_api",
+    "\\application\\views\\admin\\roles",
+    "\\application\\views\\admin\\subscriptions",
+    "\\application\\views\\admin\\tables"
   ],
-  "SelectedNode": "\\application\\views\\admin\\npi_api\\npi_home.php",
+  "SelectedNode": "\\application\\views\\admin\\npi_api\\npi_data.php",
   "PreviewInSolutionExplorer": false
 }
