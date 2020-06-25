@@ -30,7 +30,7 @@ class Subscriptions extends AdminController
         if (!has_permission('subscriptions', '', 'view') && !has_permission('subscriptions', '', 'view_own')) {
             ajax_access_denied();
         }
-        $this->app->get_table_data('subscriptions');
+     $this->app->get_table_data('subscriptions');
     }
 
     public function create()

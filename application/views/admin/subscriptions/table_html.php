@@ -47,8 +47,8 @@ hooks()->add_action('app_admin_footer', function(){
       $.each($('._hidden_inputs._filters input'),function(){
         SubscriptionsServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
       });
-      var url = $('#table-subscriptions').data('url');
-      initDataTable('.table-subscriptions', url, undefined, undefined, SubscriptionsServerParams, <?php echo hooks()->apply_filters('subscriptions_table_default_order', json_encode(array(6,'desc'))); ?>);
+        var url = $('#table-subscriptions').data('url');
+        initDataTable('.table-subscriptions', url, undefined, undefined, SubscriptionsServerParams, <?php echo hooks()->apply_filters('subscriptions_table_default_order', json_encode(array(6,'desc'))); ?>);
     });
   </script>
   <?php

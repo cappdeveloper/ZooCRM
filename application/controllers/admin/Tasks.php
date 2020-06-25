@@ -43,6 +43,7 @@ class Tasks extends AdminController
     public function table()
     {
         $this->app->get_table_data('tasks');
+       
     }
 
     public function kanban()
