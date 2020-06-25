@@ -24,21 +24,18 @@ class Npi_Data extends AdminController
        */
         $this->load->view('admin/npi_api/npi_data', $data);
     }
-    public function table()
-    {
-       
+   public function NPI_page()
+     {
 
           // Datatables Variables
+    
           $draw = intval($this->input->get("draw"));
           $start = intval($this->input->get("start"));
           $length = intval($this->input->get("length"));
 
-              $this->db->select('*');
-            $this->db->from('tblnpi_bulk');   
-      
-            $books = $this->db->get()->result();
-         // $books = $this->books_model->get_books();
-            
+          $books=$this->GetAPIData($start,$length);
+          
+           $a=$this->totalNPI();
 
           $data = array();
 $count= 0;
@@ -56,14 +53,33 @@ $count= 0;
 
           $output = array(
                "draw" => $draw,
-                 "recordsTotal" => $count,
-                 "recordsFiltered" => $count,
+                 "recordsTotal" => $a,
+                 "recordsFiltered" => $a,
                  "data" => $data
             );
           //print_r($output);die;
           echo json_encode($output);
           exit();
-     
+     }
+    public function totalNPI()
+    {
+        $query = $this->db->select("COUNT(*) as num")->from("tblnpi_bulk");
+        $result = $this->db->get()->result();
+        //print_r($result[0]->num);die;
+        if(isset($result)) return $result[0]->num;
+        return 0;
+    }
+
+    public function GetAPIData($start,$length)
+    {
+        $this->db->select('*');
+        $this->db->from('tblnpi_bulk');
+        $this->db->limit($length,$start);
+
+
+        $NPIData = $this->db->get()->result();
+        return $NPIData;
+
     }
 
 

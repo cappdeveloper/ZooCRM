@@ -243,70 +243,16 @@ if(!empty($alredy_exist)){
 
   }
 /******************testing******************************************************************************/
-  public function showEmployees()
+/*  public function showEmployees()
     {
            $this->load->view('admin/npi_api/testing_view');
     }
 
 
-    public function NPI_page()
-     {
-
-          // Datatables Variables
-          $draw = intval($this->input->get("draw"));
-          $start = intval($this->input->get("start"));
-          $length = intval($this->input->get("length"));
-
-          $books=$this->GetAPIData($start,$length);
-           $a=$this->totalNPI();
-
-          $data = array();
-$count= 0;
-          foreach($books as $r) {
-            $count++;
-               $data[] = array(
-                    $r->NPI,
-                    $r->EntityCode,
-                    $r->FirstName,
-                    $r->LastName,
-                    $r->BusinessTelephone
-               );
-          }
-
-
-          $output = array(
-               "draw" => $draw,
-                 "recordsTotal" => $a,
-                 "recordsFiltered" => $a,
-                 "data" => $data
-            );
-          //print_r($output);die;
-          echo json_encode($output);
-          exit();
-     }
-    public function totalNPI()
-    {
-        $query = $this->db->select("COUNT(*) as num")->from("tblnpi_bulk");
-        $result = $this->db->get()->result();
-        //print_r($result[0]->num);die;
-        if(isset($result)) return $result[0]->num;
-        return 0;
-    }
-
-    public function GetAPIData($start,$length)
-    {
-        $this->db->select('*');
-        $this->db->from('tblnpi_bulk');
-        $this->db->limit($length,$start);
-
-
-        $NPIData = $this->db->get()->result();
-        return $NPIData;
-
-    }
+    
 
     public function datatbleview(){
 
        $this->load->view('admin/npi_api/datatable');
-  }
+  }*/
 }

@@ -18,6 +18,10 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $('#book-table').DataTable({
+        "processing": true,
+       "serverSide": true,
+        "pageLength" : 5,
+        "start": 0,
         "ajax": {
             url : "<?php echo site_url("admin/Npi_api/NPI_page") ?>",
             type : 'GET'
