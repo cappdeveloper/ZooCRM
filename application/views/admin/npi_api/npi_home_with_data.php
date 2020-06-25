@@ -122,7 +122,7 @@
        */ 
       ?>
 
-                <td data-toggle="modal" data-target="#exampleModalCenter" class="detail_npi_data" number="<?php echo $sinle->NPI;?>" firstname="<?php echo $sinle->FirstName;?>" lastname="<?php echo $sinle->LastName;?>" type="<?php echo $type;?>" status=""  sole_proprietor="<?php echo $sinle->Is_Sole_Proprietor;?>" mailing_address="<?php echo $sinle->FirstLineBusinessMailingAddress." ".$sinle->BusinessCountry." ".$sinle->BusinessPostal;?>" primary_texo="<?php echo $sinle->TaxonomyCode;?>" selected_texonomy="<?php echo $sinle->TaxonomyCode;?>" texonomy_state="<?php echo $sinle->StateCode_1;?>" texonomy_license="<?php echo $sinle->LicenseNumber_1?>" img_icon="<?php echo $src;?>" enumeration_date="<?php echo $sinle->EnumerationDate;?>" last_updated="<?php echo $sinle->LastUpdate;?>"  primary_address="<?php echo $sinle->FirstPracticeAddress." ".$sinle->PracticeCountry." ".$sinle->PracticePostal;?>" ><a href="#"><?php echo $sinle->NPI;?></a></td>
+                <td data-toggle="modal" data-target="#exampleModalCenter" class="detail_npi_data" number="<?php echo $sinle->NPI;?>" firstname="<?php echo $sinle->FirstName;?>" lastname="<?php echo $sinle->LastName;?>" type="<?php echo $type;?>" status=""  sole_proprietor="<?php echo $sinle->Is_Sole_Proprietor;?>" mailing_address="<?php echo $sinle->FirstLineBusinessMailingAddress." ".$sinle->BusinessCountry." ".$sinle->BusinessPostal;?>" primary_texo="<?php echo $sinle->TaxonomyCode;?>" selected_texonomy="<?php echo $sinle->TaxonomyCode;?>" texonomy_state="<?php echo $sinle->StateCode_1;?>" texonomy_license="<?php echo $sinle->LicenseNumber_1?>" img_icon="<?php echo $src;?>" enumeration_date="<?php echo $sinle->EnumerationDate;?>" last_updated="<?php echo $sinle->LastUpdate;?>"  primary_address="<?php echo $sinle->FirstPracticeAddress." ".$sinle->PracticeCountry." ".$sinle->PracticePostal;?>" ><a href="#"></a></td>
                 <td><?php echo $sinle->FirstName." ".$sinle->LastName;?></td>
                 <td><img src="<?php echo $src;?>" alt="img"></td>
                 <td><?php echo $sinle->FirstLineBusinessMailingAddress;?></td>
@@ -397,7 +397,15 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('#npi_data').DataTable({
-  "pageLength": 25
+   "processing": true,
+        "serverSide": true,
+        "ajax": {
+          url : "<?php echo base_url();?>admin/Npi_api/datatble",
+          type: 'post'
+        }
+        "columnDefs":{
+          "orderable":true;
+        }
 } );
 } );
 

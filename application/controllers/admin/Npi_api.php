@@ -99,7 +99,9 @@ class Npi_api extends AdminController
              $t_name = $taxonomy_name[0]->Tax_Name ;
              $data['res'][0]->TaxonomyCode = $t_name;
             }
-              $this->load->view('admin/npi_api/npi_home_with_data', $data);
+            //echo "<pre>";
+            //print_R(json_encode($data['res']));die;
+              $this->load->view('admin/npi_api/npi_home_with_data', json_encode($data['res']));
          }
 /************************************Import Single Row From Table***********************************************/
    public function ajax_get_response(){
@@ -239,5 +241,63 @@ if(!empty($alredy_exist)){
 
  
 
+  }
+/******************testing******************************************************************************/
+  public function showEmployees()
+    {
+           $this->load->view('admin/npi_api/testing_view');
+    }
+
+
+    public function books_page()
+     {
+
+          // Datatables Variables
+          $draw = intval($this->input->get("draw"));
+          $start = intval($this->input->get("start"));
+          $length = intval($this->input->get("length"));
+
+              $this->db->select('*');
+            $this->db->from('tblnpi_bulk');   
+      
+            $books = $this->db->get()->result();
+         // $books = $this->books_model->get_books();
+            
+
+          $data = array();
+$count= 0;
+          foreach($books as $r) {
+            $count++;
+               $data[] = array(
+                    $r->NPI,
+                    $r->EntityCode,
+                    $r->FirstName,
+                    $r->LastName,
+                    $r->BusinessTelephone
+               );
+          }
+
+
+          $output = array(
+               "draw" => $draw,
+                 "recordsTotal" => $count,
+                 "recordsFiltered" => $count,
+                 "data" => $data
+            );
+          //print_r($output);die;
+          echo json_encode($output);
+          exit();
+     }
+    public function totalEmployees()
+    {
+        $query = $this->db->select("COUNT(*) as num")->get("tblnpi_bulk");
+        $result = $query->row();
+        if(isset($result)) return $result->num;
+        return 0;
+    }
+
+    public function datatbleview(){
+  
+       $this->load->view('admin/npi_api/datatable');
   }
 }
