@@ -164,7 +164,15 @@ function app_init_admin_sidebar_menu_items()
                 'position' => 51,
         ]);
     }
-
+	//Npi data menu
+     if (has_permission('NPI_DATA', '', 'view')) {
+        $CI->app_menu->add_sidebar_menu_item('NPI_data', [
+                'name'     => _l('NPI Data'),
+                'href'     => admin_url('Npi_Data'),
+                'icon'     => 'fa fa-folder-open-o',
+                'position' => 52,
+        ]);
+    }
     // Utilities
     $CI->app_menu->add_sidebar_menu_item('utilities', [
             'collapse' => true,

@@ -9,11 +9,25 @@ class npi_model extends App_Model
         parent::__construct();
     }
 
+
+
     /**
      * Get lead
      * @param  string $id Optional - leadid
      * @return mixed
      */
+
+    public function get($where = [])
+    {
+        $this->select();
+        $this->join();
+        $this->db->where($where);
+
+        return $this->db->get(db_prefix() . 'npi_bulk')->result_array();
+    }
+
+
+
     public function add_log($insert_id)
     {
         /*if (isset($data['custom_contact_date']) || isset($data['custom_contact_date'])) {
@@ -62,7 +76,7 @@ class npi_model extends App_Model
         $data['email'] = trim($data['email']);
         $this->db->insert(db_prefix() . 'leads', $data);
         $insert_id = $this->db->insert_id();*/
-        
+
             log_activity('New Lead Added [ID: ' . $insert_id . ']');
             $this->log_lead_activity($insert_id, 'not_lead_activity_created');
 
@@ -76,7 +90,7 @@ class npi_model extends App_Model
             hooks()->do_action('lead_created', $insert_id);
 
             return $insert_id;
-        
+
     }
 
      public function log_lead_activity($id, $description, $integration = false, $additional_data = '')
