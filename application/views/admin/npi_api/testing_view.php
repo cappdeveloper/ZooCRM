@@ -19,7 +19,7 @@
 $(document).ready(function() {
     $('#book-table').DataTable({
         "ajax": {
-            url : "<?php echo site_url("admin/Npi_api/books_page") ?>",
+            url : "<?php echo site_url("admin/Npi_api/NPI_page") ?>",
             type : 'GET'
         },
     });

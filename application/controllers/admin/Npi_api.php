@@ -1,5 +1,5 @@
 <?php
-ini_set('max_execution_time', 0); 
+ini_set('max_execution_time', 0);
 ini_set('memory_limit','2048M');
 //error_reporting(0);
 ini_set('display_errors', 1);
@@ -10,7 +10,7 @@ class Npi_api extends AdminController
     public function __construct()
     {
         parent::__construct();
-    
+
         $this->load->model('npi_model');
     }
 
@@ -25,37 +25,37 @@ class Npi_api extends AdminController
         $this->load->view('admin/npi_api/npi_home', $data);
     }
     /*******************************Search Npi Data******************************************************/
-   public function npi_search_result(){      
+   public function npi_search_result(){
          $this->load->helper('form');
 
      if($this->input->post('taxonomy_description')){
-            $this->db->select('Tax_value'); 
-            $this->db->from('tbltaxnomy_value');   
-            $this->db->where('Tax_Name', $this->input->post('taxonomy_description')); 
-            $taxonomy_code = $this->db->get()->result();  
+            $this->db->select('Tax_value');
+            $this->db->from('tbltaxnomy_value');
+            $this->db->where('Tax_Name', $this->input->post('taxonomy_description'));
+            $taxonomy_code = $this->db->get()->result();
             $t_code = $taxonomy_code[0]->Tax_value ;
             $where['TaxonomyCode'] = $t_code;
           }
       if($this->input->post('country')){
             $where['BusinessCountry'] = $this->input->post('country');
-          
+
           }
           if($this->input->post('postal_code')){
              $where['BusinessPostal'] = $this->input->post('postal_code');
-            
+
           }
 
            if($this->input->post('number')){
-      
+
             $where['NPI'] = $this->input->post('number');
           }
            if($this->input->post('last_name')){
                 $where['LastName'] = $this->input->post('last_name');
-               
+
           }
            if($this->input->post('first_name')){
                   $where['FirstName'] = $this->input->post('first_name');
-             
+
           }
          if($this->input->post('state')){
                 $where['BusinessState'] = $this->input->post('state');
@@ -68,34 +68,34 @@ class Npi_api extends AdminController
                 $entity_type = 1;
               }
                 $where['EntityCode'] = $entity_type;
-                
+
 
             }
-          $this->db->select('NPI,FirstName,LastName,TaxonomyCode,LicenseNumber_1,StateCode_1,FirstLineBusinessMailingAddress,BusinessCountry,BusinessPostal,EnumerationDate,LastUpdate,FirstPracticeAddress,PracticeCountry,PracticePostal,BusinessTelephone,EntityCode'); 
+          $this->db->select('NPI,FirstName,LastName,TaxonomyCode,LicenseNumber_1,StateCode_1,FirstLineBusinessMailingAddress,BusinessCountry,BusinessPostal,EnumerationDate,LastUpdate,FirstPracticeAddress,PracticeCountry,PracticePostal,BusinessTelephone,EntityCode');
             $this->db->from('tblnpi_bulk');
-            
 
-            $this->db->where($where); 
+
+            $this->db->where($where);
             $data['res'] = $this->db->get()->result();
-           
+
             $count =  count($data['res']);
              if($count>1){
              foreach($data['res'] as $sinle){
                $texo_code = $sinle->TaxonomyCode;
-               $this->db->select('Tax_Name'); 
-               $this->db->from('tbltaxnomy_value');   
-               $this->db->where('Tax_value', $texo_code); 
-               $taxonomy_name = $this->db->get()->result();  
+               $this->db->select('Tax_Name');
+               $this->db->from('tbltaxnomy_value');
+               $this->db->where('Tax_value', $texo_code);
+               $taxonomy_name = $this->db->get()->result();
                $t_name = $taxonomy_name[0]->Tax_Name ;
                $sinle->TaxonomyCode = $t_name;
-            
+
              }
             }else{
               $texo_code = $data['res'][0]->TaxonomyCode;
-              $this->db->select('Tax_Name'); 
-              $this->db->from('tbltaxnomy_value');   
-              $this->db->where('Tax_value', $texo_code); 
-              $taxonomy_name = $this->db->get()->result();  
+              $this->db->select('Tax_Name');
+              $this->db->from('tbltaxnomy_value');
+              $this->db->where('Tax_value', $texo_code);
+              $taxonomy_name = $this->db->get()->result();
              $t_name = $taxonomy_name[0]->Tax_Name ;
              $data['res'][0]->TaxonomyCode = $t_name;
             }
@@ -108,8 +108,8 @@ class Npi_api extends AdminController
 
 
    $this->db->select('id');
-            $this->db->select('id'); 
-            $this->db->from('tblleads');   
+            $this->db->select('id');
+            $this->db->from('tblleads');
             $this->db->where('number', $this->input->post('number'));
             $id = $this->db->get()->result();
             if(!empty($id[0]->id)){
@@ -160,7 +160,7 @@ class Npi_api extends AdminController
 
       }
    }
-  
+
 /****************************************Bulk Import Code**********************************************/
   public function bulk_import(){
    $data = $this->input->post();
@@ -169,13 +169,13 @@ class Npi_api extends AdminController
    $alredy_exist=0;
    foreach($data['results'] as $sinle_data){
      $this->db->select('id');
-            $this->db->select('id'); 
-            $this->db->from('tblleads');   
+            $this->db->select('id');
+            $this->db->from('tblleads');
             $this->db->where('number', $sinle_data['number']);
             $id = $this->db->get()->result();
             if(!empty($id[0]->id)){
               $alredy_exist= $alredy_exist+1;
-              
+
             }else{
 
              $data_to_insert = array(
@@ -239,7 +239,7 @@ if(!empty($alredy_exist)){
 
 }
 
- 
+
 
   }
 /******************testing******************************************************************************/
@@ -249,7 +249,7 @@ if(!empty($alredy_exist)){
     }
 
 
-    public function books_page()
+    public function NPI_page()
      {
 
           // Datatables Variables
@@ -257,12 +257,8 @@ if(!empty($alredy_exist)){
           $start = intval($this->input->get("start"));
           $length = intval($this->input->get("length"));
 
-              $this->db->select('*');
-            $this->db->from('tblnpi_bulk');   
-      
-            $books = $this->db->get()->result();
-         // $books = $this->books_model->get_books();
-            
+          $books=$this->GetAPIData($start,$length);
+           $a=$this->totalNPI();
 
           $data = array();
 $count= 0;
@@ -280,24 +276,37 @@ $count= 0;
 
           $output = array(
                "draw" => $draw,
-                 "recordsTotal" => $count,
-                 "recordsFiltered" => $count,
+                 "recordsTotal" => $a,
+                 "recordsFiltered" => $a,
                  "data" => $data
             );
           //print_r($output);die;
           echo json_encode($output);
           exit();
      }
-    public function totalEmployees()
+    public function totalNPI()
     {
-        $query = $this->db->select("COUNT(*) as num")->get("tblnpi_bulk");
-        $result = $query->row();
-        if(isset($result)) return $result->num;
+        $query = $this->db->select("COUNT(*) as num")->from("tblnpi_bulk");
+        $result = $this->db->get()->result();
+        //print_r($result[0]->num);die;
+        if(isset($result)) return $result[0]->num;
         return 0;
     }
 
+    public function GetAPIData($start,$length)
+    {
+        $this->db->select('*');
+        $this->db->from('tblnpi_bulk');
+        $this->db->limit($length,$start);
+
+
+        $NPIData = $this->db->get()->result();
+        return $NPIData;
+
+    }
+
     public function datatbleview(){
-  
+
        $this->load->view('admin/npi_api/datatable');
   }
 }
