@@ -26,7 +26,44 @@ class Npi_Data extends AdminController
     }
     public function table()
     {
-        $this->app->get_table_data('npi_data');
+       
+
+          // Datatables Variables
+          $draw = intval($this->input->get("draw"));
+          $start = intval($this->input->get("start"));
+          $length = intval($this->input->get("length"));
+
+              $this->db->select('*');
+            $this->db->from('tblnpi_bulk');   
+      
+            $books = $this->db->get()->result();
+         // $books = $this->books_model->get_books();
+            
+
+          $data = array();
+$count= 0;
+          foreach($books as $r) {
+            $count++;
+               $data[] = array(
+                    $r->NPI,
+                    $r->EntityCode,
+                    $r->FirstName,
+                    $r->LastName,
+                    $r->BusinessTelephone
+               );
+          }
+
+
+          $output = array(
+               "draw" => $draw,
+                 "recordsTotal" => $count,
+                 "recordsFiltered" => $count,
+                 "data" => $data
+            );
+          //print_r($output);die;
+          echo json_encode($output);
+          exit();
+     
     }
 
 
