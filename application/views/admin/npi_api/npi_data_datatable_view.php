@@ -1,27 +1,4 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php init_head(); ?>
-      
-<div id="wrapper">
-   <div class="content">
-      <div class="row">
-         <div class="col-md-12">
-            <div class="panel_s">
-               <div class="panel-body">
-                  
-               
-                  <div class="tab-content">
-                  
-                     <div class="row" id="npi_data-table">
-                        
-                       
-                        <div class="col-md-12">
-                          <div>
-                              <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                       
-                          <!--  <?php
-                           // $this->load->view('admin/npi_api/table_html'); 
-                         ?> -->
-
+<!-- 
              <head>
               <button class="btn btn-success" id="bulk">Bulk Import Data</button>
         <title>Npi Bulk Data</title>
@@ -51,7 +28,7 @@ $(document).ready(function() {
         "pageLength" : 5,
         "start": 0,
         "ajax": {
-            url : "<?php echo site_url("admin/Npi_Data/npi_search_result") ?>",
+            url : "<?php echo site_url("admin/Npi_Data/NPI_page") ?>",
             type : 'GET'
         },
           dom: 'Bfrtip',
@@ -83,29 +60,64 @@ $(document).ready(function() {
 });
 </script>
 
-    </body>
-                                  </div>
-                              </div>
-                        </div>
-                     </div>
-                   
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-</div>
+    </body> -->
+
+    <?php defined('BASEPATH') or exit('No direct script access allowed');
+
+$table_data = array(
+ 
+  array(
+    'name'=>_l('NPI'),
+    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-npi_bulk-Tax_Name')
+  ),
+   array(
+   'name'=>_l('Entity'),
+    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-npi_bulk-Tax_value')
+  ),
+ array(
+   'name'=>_l('Firstname'),
+    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-npi_bulk-Tax_value')
+  ),
+  array(
+   'name'=>_l('Lastname'),
+    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-npi_bulk-Tax_value')
+  ),
+   array(
+   'name'=>_l('Mobile'),
+    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-npi_bulk-Tax_value')
+  ),
+
+
+);
+/*render_datatable($table_data,'npi_data',
+  array(),
+  array(
+    'id'=>'table-npi_data',
+    'data-url'=>$url,
+   ));*/
+render_datatable($table_data,'subscriptions',
+  array(),
+  array(
+    'id'=>'table-subscriptions',
+    'data-url'=>$url,
+    'data-last-order-identifier' => 'subscriptions',
+    'data-default-order'         => get_table_last_order('subscriptions'),
+  ));
+
+hooks()->add_action('app_admin_footer', function(){
+?>
+<script>
+    $(function(){
+      
+        var url = $('#table-npi_data').data('url');
+       
+       // initDataTable('.table-npi_data', url);
+        initDataTable('.table-npi_data',url);
+    });
+</script>
+<?php
+});
+?>
 
 
 
-
-
-
-
-                            
-   
-
-
-</body>
-</html>

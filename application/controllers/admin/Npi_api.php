@@ -27,7 +27,9 @@ class Npi_api extends AdminController
     /*******************************Search Npi Data******************************************************/
    public function npi_search_result(){
          $this->load->helper('form');
-
+           $draw = intval($this->input->get("draw"));
+          $start = intval($this->input->get("start"));
+          $length = intval($this->input->get("length"));
      if($this->input->post('taxonomy_description')){
             $this->db->select('Tax_value');
             $this->db->from('tbltaxnomy_value');
@@ -76,6 +78,9 @@ class Npi_api extends AdminController
 
 
             $this->db->where($where);
+            if($length>0 && $start>0 ){
+             $this->db->limit($length,$start);
+            }
             $data['res'] = $this->db->get()->result();
 
             $count =  count($data['res']);
@@ -99,8 +104,43 @@ class Npi_api extends AdminController
              $t_name = $taxonomy_name[0]->Tax_Name ;
              $data['res'][0]->TaxonomyCode = $t_name;
             }
+             $dataa = array();
+          
+          foreach($data['res'] as $r) {
+          $query = $this->db->select("*")->from("tbltaxnomy_value")->where('Tax_value',$r->TaxonomyCode);
+
+        $result = $this->db->get()->result();
+        
+          $r->TaxonomyCode = $result[0]->Tax_Name;
+
+        
+            
+               $dataa[] = array(
+                    $r->NPI,
+                    $r->FirstName." ".$r->LastName,
+                    $r->EntityCode,
+                    $r->FirstPracticeAddress,
+                    $r->PracticeTelephone,
+                    $r->TaxonomyCode
+               );
+          }
+
+         if($length>0 && $start>0 ){
+          
+$query = $this->db->select("COUNT(*) as num")->from("tblnpi_bulk");
+        $result = $this->db->get()->result();
+          $output = array(
+               "draw" => $draw,
+                 "recordsTotal" => $result[0]->num,
+                 "recordsFiltered" => $result[0]->num,
+                 "data" => $dataa
+            );
+          //print_r($output);die;
+          echo json_encode($output);
+          //exit();
+        }
            // echo "<pre>";
-            //print_R(json_encode($data['res']));die;
+            // print_R(json_encode($data['res']));die;
               $this->load->view('admin/npi_api/npi_home_with_data', $data);
          }
 /************************************Import Single Row From Table***********************************************/

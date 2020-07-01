@@ -28,6 +28,7 @@ class Npi_Data extends AdminController
    public function NPI_page()
      {
 
+
           // Datatables Variables
     
           $draw = intval($this->input->get("draw"));
@@ -37,7 +38,22 @@ class Npi_Data extends AdminController
           $books=$this->GetAPIData($start,$length);
           //echo json_encode($books);
            $a=$this->totalNPI();
-
+           $aColumns = [
+                'NPI',
+                'EntityCode'
+            ];
+            $sIndexColumn = 'NPI';
+            $sTable       = 'tblnpi_bulk';//db_prefix().'tickets_predefined_replies';
+            $result       = data_tables_init($aColumns, $sIndexColumn, $sTable, [], [], [
+                'NPI',
+            ]);
+            $output  = $result['output'];
+            $rResult = $result['rResult'];
+         
+            echo json_encode($rResult);die;
+           //print_r($books
+           //data_tables_init($aColumns, $sIndexColumn, $sTable, $join = [], $where = [], $additionalSelect = [], $sGroupBy = '', $searchAs = []);
+/*
           $data = array();
           $count= 0;
           foreach($books as $r) {
@@ -68,7 +84,7 @@ class Npi_Data extends AdminController
             );
           //print_r($output);die;
           echo json_encode($output);
-          exit();
+          exit();*/
      }
     public function totalNPI()
     {
