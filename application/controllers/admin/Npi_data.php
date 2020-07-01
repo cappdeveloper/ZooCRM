@@ -50,7 +50,31 @@ class Npi_Data extends AdminController
             $output  = $result['output'];
             $rResult = $result['rResult'];
          
-            echo json_encode($rResult);die;
+            //echo json_encode($rResult);die;
+             foreach ($rResult as $aRow) {
+                $row = [];
+                for ($i = 0; $i < count($aColumns); $i++) {
+                    if (strpos($aColumns[$i], 'as') !== false && !isset($aRow[$aColumns[$i]])) {
+                        $_data = $aRow[strafter($aColumns[$i], 'as ')];
+                    } else {
+                        $_data = $aRow[$aColumns[$i]];
+                    }
+                   /* if ($i == 0) {
+                        $_data = '<a href="' . admin_url('clients/client/' . $aRow['userid']) . '" target="_blank">' . $aRow['company'] . '</a>';
+                    } elseif ($aColumns[$i] == $select[2] || $aColumns[$i] == $select[3]) {
+                        if ($_data == null) {
+                            $_data = 0;
+                        }
+                        $_data = app_format_money($_data, $currency->name);
+                    }*/
+                    $row[] = $_data;
+                }
+                $output['aaData'][] = $row;
+                //$x++;
+            }
+
+            echo json_encode($output);
+            die();
            //print_r($books
            //data_tables_init($aColumns, $sIndexColumn, $sTable, $join = [], $where = [], $additionalSelect = [], $sGroupBy = '', $searchAs = []);
 /*
