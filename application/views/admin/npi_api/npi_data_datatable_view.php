@@ -62,62 +62,22 @@ $(document).ready(function() {
 
     </body> -->
 
-    <?php defined('BASEPATH') or exit('No direct script access allowed');
+   <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
-$table_data = array(
- 
-  array(
-    'name'=>_l('NPI'),
-    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-npi_bulk-Tax_Name')
-  ),
-   array(
-   'name'=>_l('Entity'),
-    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-npi_bulk-Tax_value')
-  ),
- array(
-   'name'=>_l('Firstname'),
-    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-npi_bulk-Tax_value')
-  ),
-  array(
-   'name'=>_l('Lastname'),
-    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-npi_bulk-Tax_value')
-  ),
-   array(
-   'name'=>_l('Mobile'),
-    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-npi_bulk-Tax_value')
-  ),
-
-
-);
-/*render_datatable($table_data,'npi_data',
-  array(),
-  array(
-    'id'=>'table-npi_data',
-    'data-url'=>$url,
-   ));*/
-render_datatable($table_data,'subscriptions',
-  array(),
-  array(
-    'id'=>'table-subscriptions',
-    'data-url'=>$url,
-    'data-last-order-identifier' => 'subscriptions',
-    'data-default-order'         => get_table_last_order('subscriptions'),
-  ));
-
-hooks()->add_action('app_admin_footer', function(){
-?>
+<div id="wrapper">
+  <div class="content">
+    <div class="panel_s">
+      <div class="panel-body">
+        <?php $this->load->view('admin/npi_api/table_html'); ?>
+      </div>
+    </div>
+  </div>
+</div>
+<?php init_tail(); ?>
 <script>
-    $(function(){
-      
-        var url = $('#table-npi_data').data('url');
-       
-       // initDataTable('.table-npi_data', url);
-        initDataTable('.table-npi_data',url);
-    });
+  $(function(){
+    initDataTable('.table-paymentss', admin_url+'Npi_Data/NPI_page');
+  });
 </script>
-<?php
-});
-?>
-
-
-
+</body>
+</html>

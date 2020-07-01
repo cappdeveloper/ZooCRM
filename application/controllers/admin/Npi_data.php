@@ -35,12 +35,12 @@ class Npi_Data extends AdminController
           $start = intval($this->input->get("start"));
           $length = intval($this->input->get("length"));
 
-          $books=$this->GetAPIData($start,$length);
+          $books=$this->GetAPIData(1,5);
           //echo json_encode($books);
-           $a=$this->totalNPI();
+           $a=6;//$this->totalNPI();
            $aColumns = [
-                'NPI',
-                'EntityCode'
+                'FirstName',
+                'LastName'
             ];
             $sIndexColumn = 'NPI';
             $sTable       = 'tblnpi_bulk';//db_prefix().'tickets_predefined_replies';
@@ -74,7 +74,7 @@ class Npi_Data extends AdminController
             }
 
             echo json_encode($output);
-            die();
+            //die();
            //print_r($books
            //data_tables_init($aColumns, $sIndexColumn, $sTable, $join = [], $where = [], $additionalSelect = [], $sGroupBy = '', $searchAs = []);
 /*
