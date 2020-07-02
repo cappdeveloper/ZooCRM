@@ -19,12 +19,14 @@ $aColumns = [
 
 $sIndexColumn ='NPI' ;
 $sTable       = db_prefix() . 'npi_bulk';
-$where        = [
 
+$where        = [
+           
     ];
+      
 $join = [
     'INNER JOIN ' . db_prefix() . 'taxnomy_value ON ' . db_prefix() . 'taxnomy_value.Tax_value = ' . db_prefix() . 'npi_bulk.TaxonomyCode'];
-
+//print_r($join);die;  
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable,$join, $where, [/* Extra column you want to search*/]);
 
 $output  = $result['output'];

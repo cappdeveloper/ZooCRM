@@ -26,10 +26,14 @@ class Npi_Data extends AdminController
         $this->load->view('admin/npi_api/npi_data', $data);
     }
 
-    public function table()
-    {
-        $this->app->get_table_data('npi_data');
-    }
+      public function table()
+      {
+          $this->app->get_table_data('npi_data',[
+              'FirstName' => 'DAVID',
+              'LastName' => 'DAVID',
+              'NPI'=>'',
+          ]);
+      }
 
    public function NPI_page()
      {
