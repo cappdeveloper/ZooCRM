@@ -3,16 +3,17 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
-    'Tax_name',
-    'Tax_value',
+    'NPI',
+    'LastName',
+    'FirstName',
                ];
-$sIndexColumn ='Tax_value' ;
-$sTable       = db_prefix() . 'taxnomy_value';
+$sIndexColumn ='NPI' ;
+$sTable       = db_prefix() . 'npi_bulk';
 $where        = [
 
     ];
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, [], $where, [
-   'Tax_value',
+   'NPI',
     ]);
 $output  = $result['output'];
 $rResult = $result['rResult'];

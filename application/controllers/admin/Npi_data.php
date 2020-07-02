@@ -25,12 +25,18 @@ class Npi_Data extends AdminController
        */
         $this->load->view('admin/npi_api/npi_data', $data);
     }
+
+    public function table()
+    {
+        $this->app->get_table_data('npi_data');
+    }
+
    public function NPI_page()
      {
 
 
           // Datatables Variables
-    
+
           $draw = intval($this->input->get("draw"));
           $start = intval($this->input->get("start"));
           $length = intval($this->input->get("length"));
@@ -49,7 +55,7 @@ class Npi_Data extends AdminController
             ]);
             $output  = $result['output'];
             $rResult = $result['rResult'];
-         
+
             //echo json_encode($rResult);die;
              foreach ($rResult as $aRow) {
                 $row = [];
@@ -84,10 +90,10 @@ class Npi_Data extends AdminController
           $query = $this->db->select("*")->from("tbltaxnomy_value")->where('Tax_value',$r->TaxonomyCode);
 
         $result = $this->db->get()->result();
-        
+
           $r->TaxonomyCode = $result[0]->Tax_Name;
 
-        
+
             $count++;
                $data[] = array(
                     $r->NPI,
@@ -139,7 +145,7 @@ class Npi_Data extends AdminController
        $failed=0;
        $alredy_exist=0;
         foreach($this->input->post()['res'] as $single){
-             
+
             $this->db->select('id');
             $this->db->from('tblleads');
             $this->db->where('number', $single);
@@ -187,10 +193,10 @@ class Npi_Data extends AdminController
         'number'=>$fetched_data[0]->NPI
     );
         if($this->db->insert('tblleads',$data_to_insert)){
-           
+
            $Successfully = $Successfully+1;
         }else{
-         
+
             $failed= $failed+1;
         }
     }

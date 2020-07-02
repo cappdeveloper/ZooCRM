@@ -18,9 +18,9 @@
                           <div>
                               <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                        
-                           <?php
-                          $this->load->view('admin/npi_api/npi_data_datatable_view'); 
-                         ?> 
+                          
+                                         <?php $this->load->view('admin/npi_api/table_html',array('url'=>admin_url('Npi_data/table'))); ?>
+      
 
                                   </div>
                               </div>
@@ -42,7 +42,7 @@
 
 
                             
-   
+     <?php init_tail(); ?>
 
 
 </body>
