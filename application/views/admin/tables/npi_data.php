@@ -1,6 +1,7 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
+/* Database Table Columns*/
 
 $aColumns = [
     'NPI',
@@ -14,6 +15,8 @@ $aColumns = [
     'BusinessTelephone',
     'PracticeCountry'
                ];
+/* Used for search by and Indexing*/
+
 $sIndexColumn ='NPI' ;
 $sTable       = db_prefix() . 'npi_bulk';
 $where        = [
@@ -22,10 +25,10 @@ $where        = [
 $join = [
     'INNER JOIN ' . db_prefix() . 'taxnomy_value ON ' . db_prefix() . 'taxnomy_value.Tax_value = ' . db_prefix() . 'npi_bulk.TaxonomyCode'];
 
-$result = data_tables_init($aColumns, $sIndexColumn, $sTable,$join, $where, [
-   'NPI',
-    ]);
+$result = data_tables_init($aColumns, $sIndexColumn, $sTable,$join, $where, [/* Extra column you want to search*/]);
+
 $output  = $result['output'];
+
 $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {

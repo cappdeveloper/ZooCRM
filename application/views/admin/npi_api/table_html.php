@@ -1,5 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
+/* Table Header HTML Dynamic */
+
       $table_data = array(
         array(
           'name'=>_l('NPI'),
@@ -42,10 +44,10 @@
           'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-country')
         ),
 
-
-
-
       );
+
+     /* Render Table with Data */
+
       render_datatable($table_data,'npi_data',
         array(),
         array(
@@ -58,7 +60,7 @@
 ?>
 <script>
     $(function(){
-     
+    /* Fetch URL for Ajax Posting */
         var url = $('#table-npi_data').data('url');
         initDataTable('.table-npi_data', url);
     });
