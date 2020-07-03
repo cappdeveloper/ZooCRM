@@ -137,6 +137,7 @@ class Npi_Data extends AdminController
      public function NPI_page_bulk_import()
     {
         $this->load->helper('form');
+        $tag = $this->input->post()['tag'];
         //print_r($this->input->post()['res']);die;
         $Successfully=0;
        $failed=0;
@@ -190,7 +191,14 @@ class Npi_Data extends AdminController
         'number'=>$fetched_data[0]->NPI
     );
         if($this->db->insert('tblleads',$data_to_insert)){
-
+           $tagdata  = array(
+             'rel_id'=>1,
+             'rel_type'=>$tag,
+             'tag_id'=>1,
+             'tag_order'=>1
+           );
+         $ress =  $this->db->insert('tbltaggables',$tagdata);
+        
            $Successfully = $Successfully+1;
         }else{
 
