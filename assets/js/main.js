@@ -33,6 +33,7 @@ if (("Notification" in window) && app.options.desktop_notifications == '1') {
 // Predefined global variables
 var original_top_search_val,
     table_leads,
+    table_npi,
     table_activity_log,
     table_estimates,
     table_invoices,
@@ -1364,6 +1365,13 @@ $(function() {
         });
         return false;
     });
+
+    // Additional server parameter for NPI_Data
+
+
+
+
+
 
     // Add additional server params $_POST
     var LeadsServerParams = {
