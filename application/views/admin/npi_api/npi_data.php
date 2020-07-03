@@ -19,6 +19,7 @@
                               <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                        
                           <button class="btn btn-success" id="bulk">Bulk Import Data</button>
+                          <hr>
                                          <?php $this->load->view('admin/npi_api/table_html',array('url'=>admin_url('Npi_data/table'))); ?>
       
 
@@ -51,7 +52,7 @@
         {
           Npi_Number.push($(this).html()); 
         });
-      
+
      $.ajax({
       url:"<?php echo site_url("admin/Npi_Data/NPI_page_bulk_import") ?>",
       type:'POST',
@@ -61,7 +62,11 @@
         alert(result);
 
       }
+
      });
+     $(document).on('click','.sorting_1'function(){
+               alert('kjhg');
+     })
     });
 </script>
 
