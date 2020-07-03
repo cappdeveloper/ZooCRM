@@ -7,6 +7,10 @@
           'name'=>_l('NPI'),
           'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-NPI')
         ),
+         array(
+          'name'=>_l('Entity'),
+          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-entity')
+        ),
         array(
           'name'=>_l('First Name'),
           'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-FirstName')
@@ -61,8 +65,10 @@
 <script>
     $(function(){
     /* Fetch URL for Ajax Posting */
+       
         var url = $('#table-npi_data').data('url');
         initDataTable('.table-npi_data', url);
+        
     });
 </script>
 <?php

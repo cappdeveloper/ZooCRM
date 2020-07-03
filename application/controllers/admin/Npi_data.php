@@ -15,25 +15,18 @@ class Npi_Data extends AdminController
 
     }
 
-    /* List all knowledgebase articles */
+   
     public function index()
     {
 
-        /*if (!has_permission('knowledge_base', '', 'view')) {
-            access_denied('knowledge_base');
-        }
-       */
+        $data['taxsources']  = $this->npi_model->get_taxnomy();
         $this->load->view('admin/npi_api/npi_data', $data);
     }
 
-      public function table()
-      {
-          $this->app->get_table_data('npi_data',[
-              'FirstName' => 'DAVID',
-              'LastName' => 'DAVID',
-              'NPI'=>'',
-          ]);
-      }
+    public function table()
+    {
+          $this->app->get_table_data('npi_data');  
+    }
 
    public function NPI_page()
      {

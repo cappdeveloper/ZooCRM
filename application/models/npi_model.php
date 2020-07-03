@@ -7,6 +7,7 @@ class npi_model extends App_Model
     public function __construct()
     {
         parent::__construct();
+
     }
 
 
@@ -25,6 +26,20 @@ class npi_model extends App_Model
 
         return $this->db->get(db_prefix() . 'npi_bulk')->result_array();
     }
+
+    public function get_taxnomy($id = false)
+    {
+        if (is_numeric($id)) {
+            $this->db->where('id', $id);
+
+            return $this->db->get(db_prefix() . 'taxnomy_value')->row();
+        }
+
+           $this->db->order_by('Tax_name', 'asc');
+
+          return $this->db->get(db_prefix() . 'taxnomy_value')->result_array();
+    }
+
 
 
 
