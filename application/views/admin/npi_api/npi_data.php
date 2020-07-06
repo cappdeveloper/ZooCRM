@@ -243,6 +243,144 @@
     </div>
    </div>
                   
+  <!-- Modal -->
+  <div class="modal fade" id="npiModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">NPI Details</h4>
+        </div>
+        <div class="modal-body">
+          <!--<select name="selecttag" class="selct_tag">
+            <div class="row">
+              <div class="col-sm-6">
+            <option value="">Select Tag</option>
+            <option value="one">Tag One</option>
+            <option value="Two">Tag Two</option>
+          </select>-->
+             <div>
+              <blockquote>
+                  <p>DR. DAVID JAMES AARON
+                    D.C.</p>
+          
+              
+          
+          
+              <span class="style1">
+              Gender: 
+              
+                MALE
+              
+              </span>
+              <br>
+            
+          
+          
+           
+              </blockquote>
+              <p>
+        
+             <!--  <img src="/static/registry/img/glyphicons-4-user.png" alt="Individual"> -->
+          
+              </img> NPI: 1487676722
+                  <br/>
+                
+          <br/>
+                  <table>
+                    <tr><td rowspan='2' vertical-align='top'>
+                 <!--  <img src="/static/registry/img/glyphicons-46-calendar.png" alt="Calendar"></img>  -->
+                   </td>
+                        <td>&nbsp;&nbsp;</td><td >Last Updated:</td><td>&nbsp;&nbsp;</td><td>2007-07-08</td></tr>
+                         <tr><td>&nbsp;&nbsp;</td><td align='right'>Certification Date:</td><td>&nbsp;</td><td> </td></tr>
+                    </table
+                    
+                  <div class="row">
+            
+            <h2>Details</h2>  
+            <table class="table table-striped table-bordered">
+            
+            
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            
+            <tr>
+        <td>NPI</td>
+              <td>1487676722</td>
+            </tr>
+             <tr>
+        <td>Enumeration Date</td>
+              <td>2006-07-24</td>
+            </tr>
+      <tr>
+        <td>NPI Type</td>
+              <td>
+            
+              1 - Individual
+          
+       </td>
+            </tr>
+       
+            
+        
+            <tr>
+              <td>Sole Proprietor</td>
+               <td>  YES </td>
+          </tr>
+          
+          
+          <tr>
+      
+              <td>Status</td>
+              
+              <td>
+                
+                     Active
+                
+              
+              </td>
+            </tr>
+             <tr>
+              <td>Primary Practice Address</td>
+              <td> 
+            
+            
+              
+                                600 N RIVER DR
+                
+                <br>
+                MARION, IN 
+                
+                
+                  46952-2649
+                
+                
+                <br>
+                United States
+                <br><br>
+                                Phone: 765-664-2479 | 
+                Fax: 765-662-1625
+              </td>
+            </tr>
+
+            </div>
+     
+         </div>
+     
+        </div>
+
+        <div class="modal-footer">
+         
+        </div>
+      </div>
+    </div>
+   </div>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
                            
@@ -300,7 +438,28 @@
               }
             });
        });
-     });
+
+          /////////////////////////
+
+
+
+          ////////////////////////
+$(document).on("click",'tr',function(){
+   var table = $('table.table-npi_data').DataTable();
+   table.rows().eq(0).each( function ( index ) {
+    var row = table.row( index );
+ 
+    var data = row.data();
+    //alert(data);
+    // ... do something with data(), or row.node(), etc
+
+    // ... do something with data(), or row.node(), etc
+} );
+$("#npiModal").modal();
+/*npiModal*/
+});
+});
+  
 
 
   </script>

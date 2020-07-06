@@ -22,7 +22,7 @@ $sIndexColumn ='NPI' ;
 $sTable       = db_prefix() . 'npi_bulk';
 $where        = [];
 
- //'LEFT JOIN ' . db_prefix() . 'taxnomy_value ON ' . db_prefix() . 'taxnomy_value.Tax_value = ' . db_prefix() . 'npi_bulk.TaxonomyCode'];
+ //$join = ['LEFT JOIN ' . db_prefix() . 'taxnomy_value ON ' . db_prefix() . 'taxnomy_value.Tax_value = ' . db_prefix() . 'npi_bulk.TaxonomyCode'];
 
 if ($this->ci->input->post('taxsources'))
 {
@@ -47,9 +47,18 @@ $rResult = $result['rResult'];
 foreach ($rResult as $aRow) {
     $row = [];
     for ($i = 0; $i < count($aColumns); $i++) {
-
+        if($i ==4){
+            $_data = $aRow[$aColumns[$i]];
+            //$this->load('database');
+            $this->ci->db->select('Tax_Name');
+            $this->ci->db->from('tbltaxnomy_value');
+            $this->ci->db->where('Tax_value', $_data);
+            $taxonomy_code = $this->ci->db->get()->result();
+            $t_code = $taxonomy_code[0]->Tax_Name ;
+            $_data = $t_code;
+        }else{
        $_data = $aRow[$aColumns[$i]];
-
+    }
        $row[] = $_data;
     }
 
