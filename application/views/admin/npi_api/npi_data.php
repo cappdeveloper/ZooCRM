@@ -202,7 +202,7 @@
 
 
 <div class="container">
-  <h2>Activate Modal with JavaScript</h2>
+  <h2></h2>
   <!-- Trigger the modal with a button -->
   
 
@@ -214,29 +214,40 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Select Tag</h4>
+          <h4 class="modal-title">ADDITIONAL ASSIGN</h4>
         </div>
         <div class="modal-body">
-          <select name="selecttag" class="selct_tag">
+          <!--<select name="selecttag" class="selct_tag">
             <div class="row">
               <div class="col-sm-6">
             <option value="">Select Tag</option>
             <option value="one">Tag One</option>
             <option value="Two">Tag Two</option>
-          </select>
-        </div>
-      </div>
+          </select>-->
+             <div class="form-group">
+              <?php echo '<p><b><i class="fa fa-tag" aria-hidden="true"></i> ' . _l('tags') . ':</b></p>'; ?>
+               <input type="text" class="tagsinput" id="tags_bulk" name="tags_bulk" value="" data-role="tagsinput">
+            </div>    
+        <?php
+           echo render_leads_status_select($statuses, ($this->input->post('status') ? $this->input->post('status') : get_option('leads_default_status')),'lead_import_status','status', [], true);
+           echo render_leads_source_select($sources, ($this->input->post('source') ? $this->input->post('source') : get_option('leads_default_source')),'lead_import_source');
+        ?>
+        <?php echo render_select('responsible',$members,array('staffid',array('firstname','lastname')),'leads_import_assignee',$this->input->post('responsible')); ?>
+     
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" id="npi_save" class="npi_save btn btn-primary">Start Import</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
+    </div>
+   </div>
                   
-                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
                            
      <?php init_tail(); ?>
-<script type="text/javascript">
+  <script type="text/javascript">
 
     /* Parameter Name for Option Dropdown */
     var NPIServerParams = {
@@ -246,7 +257,7 @@
 
     };
 
-    /* Ajac call on drop down Change*/
+    /* Ajax call on drop down Change*/
     table_npi = $('table.table-npi_data');
     _table_api = initDataTable(table_npi, admin_url + 'Npi_data/table', undefined, undefined, NPIServerParams);
     $.each(NPIServerParams, function (i, obj) {
@@ -258,36 +269,41 @@
         });
     });
 
+    $(document).on('click', '#bulk', function () {
+        $('#tagModal').modal();
 
-
-   $(document).on('click','#bulk',function(){
-      $('#tagModal').modal();
-      var select_value = '';
-      $("select.selct_tag"). change(function(){
-       var selectedTag = $(this). children("option:selected"). val();
-       if(!empty(selectedTag)){
-        var Npi_Number = [];
-      $('.sorting_1').each(function()
-        {
-          Npi_Number.push($(this).html()); 
-        });
-      
-     $.ajax({
-      url:"<?php echo site_url("admin/Npi_Data/NPI_page_bulk_import") ?>",
-      type:'POST',
-      data: {res:Npi_Number,tag:selectedTag},
-      success:function(result){
-          var message = $.parseJSON(result);
-        swal("Result!", message.message, "success");
-
-
-      }
-     });
-       }
-     });
-      
     });
-</script>
+
+     $(document).ready(function () {
+          $('.npi_save').click(function () {
+              var _tags = $('#tags_bulk').val();
+              var _status = $('#status').val();
+              var _source = $('#source').val();
+              var _assignee = $('#responsible').val();
+              var Npi_Number = [];
+
+              $('.sorting_1').each(function ()
+                 {
+                  Npi_Number.push($(this).html());
+                  });
+
+       $.ajax({
+               url:"<?php echo site_url("admin/Npi_Data/NPI_page_bulk_import") ?>",
+               type:'POST',
+           data: { res: Npi_Number,tag:_tags,status:_status,source:_source,assignee:_assignee},
+           success: function (result) {
+               $("#tagModal").modal("hide");
+               var message = $.parseJSON(result);
+               swal("Result!", message.message, "success");
+               location.reload();
+
+              }
+            });
+       });
+     });
+
+
+  </script>
 
 </body>
 </html>

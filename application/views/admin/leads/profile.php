@@ -56,13 +56,7 @@
          <?php } ?>
       </ul>
    </div>
-   <style type="text/css">
-     input#custom_css_submit {
-    /* margin-right: 05px; */
-    /* margin-top: 36px; */
-    margin-left: 393px;
-    margin-bottom: -16px;
-}
+  
    </style>
    <?php echo form_open('admin/leads/get_lead_excel_export');?>
      <input type="hidden" name="lname" value="<?php echo $lead->name;?>">
@@ -79,7 +73,7 @@
      <input type="hidden" name="dateadded" value="<?php echo $lead->dateadded;?>">
      <input type="hidden" name="lastcontact" value="<?php echo $lead->lastcontact;?>">
      <input type="hidden" name="source_name" value="<?php echo $lead->source_name;?>">
-<input type="submit" name="submit" value="Download Excel" class="btn btn-primary" id="custom_css_submit">
+
    </form>
       <a data-toggle="tooltip" class="btn btn-default pull-right lead-print-btn lead-top-btn lead-view mleft5" onclick="print_lead_information(); return false;" data-placement="top" title="<?php echo _l('print'); ?>" href="#">
       <i class="fa fa-print"></i>

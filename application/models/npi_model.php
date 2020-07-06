@@ -127,4 +127,59 @@ class npi_model extends App_Model
 
         return $this->db->insert_id();
     }
+     public function lead_assigned_member_notification($lead_id, $assigned, $integration = false)
+    {
+        if ((!empty($assigned) && $assigned != 0)) {
+            if ($integration == false) {
+                if ($assigned == get_staff_user_id()) {
+                    return false;
+                }
+            }
+
+            $name = $this->db->select('name')->from(db_prefix() . 'leads')->where('id', $lead_id)->get()->row()->name;
+
+            $notification_data = [
+                'description'     => ($integration == false) ? 'not_assigned_lead_to_you' : 'not_lead_assigned_from_form',
+                'touserid'        => $assigned,
+                'link'            => '#leadid=' . $lead_id,
+                'additional_data' => ($integration == false ? serialize([
+                    $name,
+                ]) : serialize([])),
+            ];
+
+            if ($integration != false) {
+                $notification_data['fromcompany'] = 1;
+            }
+
+            if (add_notification($notification_data)) {
+                pusher_trigger_notification([$assigned]);
+            }
+
+            $this->db->select('email');
+            $this->db->where('staffid', $assigned);
+            $email = $this->db->get(db_prefix() . 'staff')->row()->email;
+
+            send_mail_template('lead_assigned', $lead_id, $email);
+
+            $this->db->where('id', $lead_id);
+            $this->db->update(db_prefix() . 'leads', [
+                'dateassigned' => date('Y-m-d'),
+            ]);
+
+            $not_additional_data = [
+                get_staff_full_name(),
+                '<a href="' . admin_url('profile/' . $assigned) . '" target="_blank">' . get_staff_full_name($assigned) . '</a>',
+            ];
+
+            if ($integration == true) {
+                unset($not_additional_data[0]);
+                array_values(($not_additional_data));
+            }
+
+            $not_additional_data = serialize($not_additional_data);
+
+            $not_desc = ($integration == false ? 'not_lead_activity_assigned_to' : 'not_lead_activity_assigned_from_form');
+            $this->log_lead_activity($lead_id, $not_desc, $integration, $not_additional_data);
+        }
+    }
 }

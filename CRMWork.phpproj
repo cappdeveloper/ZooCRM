@@ -4717,13 +4717,11 @@
     <Compile Include="application\views\admin\leads\status.php" />
     <Compile Include="application\views\admin\leads\_kan_ban_card.php" />
     <Compile Include="application\views\admin\modules\list.php" />
-    <Compile Include="application\views\admin\npi_api\datatable.php" />
     <Compile Include="application\views\admin\npi_api\npi_data.php" />
     <Compile Include="application\views\admin\npi_api\npi_data_datatable_view.php" />
     <Compile Include="application\views\admin\npi_api\npi_home.php" />
     <Compile Include="application\views\admin\npi_api\npi_home_with_data.php" />
     <Compile Include="application\views\admin\npi_api\table_html.php" />
-    <Compile Include="application\views\admin\npi_api\testing_view.php" />
     <Compile Include="application\views\admin\paymentmodes\index.html" />
     <Compile Include="application\views\admin\paymentmodes\manage.php" />
     <Compile Include="application\views\admin\paymentmodes\paymentmode.php" />

@@ -12,23 +12,30 @@ class Npi_Data extends AdminController
         parent::__construct();
 
         $this->load->model('npi_model');
-
+        $this->load->model('leads_model');
+        $this->load->model('staff_model');
     }
 
-   
-    public function index()
+     public function index()
     {
+
+        $data['members'] = $this->staff_model->get('', [
+            'active'       => 1,
+            'is_not_staff' => 0,
+        ]);
+        $data['statuses'] = $this->leads_model->get_status();
+        $data['sources']  = $this->leads_model->get_source();
 
         $data['taxsources']  = $this->npi_model->get_taxnomy();
         $this->load->view('admin/npi_api/npi_data', $data);
     }
 
-    public function table()
-    {
-          $this->app->get_table_data('npi_data');  
-    }
+     public function table()
+     {
+          $this->app->get_table_data('npi_data');
+     }
 
-   public function NPI_page()
+     public function NPI_page()
      {
 
 
@@ -113,7 +120,8 @@ class Npi_Data extends AdminController
           echo json_encode($output);
           exit();*/
      }
-    public function totalNPI()
+
+     public function totalNPI()
     {
         $query = $this->db->select("COUNT(*) as num")->from("tblnpi_bulk");
         $result = $this->db->get()->result();
@@ -122,7 +130,7 @@ class Npi_Data extends AdminController
         return 0;
     }
 
-    public function GetAPIData($start,$length)
+     public function GetAPIData($start,$length)
     {
         $this->db->select('NPI,EntityCode,FirstName,LastName,FirstPracticeAddress,PracticeTelephone,TaxonomyCode');
         $this->db->from('tblnpi_bulk');
@@ -135,93 +143,96 @@ class Npi_Data extends AdminController
     }
 
      public function NPI_page_bulk_import()
-    {
+     {
         $this->load->helper('form');
-        $tag = $this->input->post()['tag'];
-        //print_r($this->input->post()['res']);die;
         $Successfully=0;
-       $failed=0;
-       $alredy_exist=0;
-        foreach($this->input->post()['res'] as $single){
+        $failed=0;
+        $alredy_exist=0;
 
+        foreach($this->input->post()['res'] as $single)
+        {
             $this->db->select('id');
             $this->db->from('tblleads');
             $this->db->where('number', $single);
             $id = $this->db->get()->result();
-            if(!empty($id[0]->id)){
+
+            if(!empty($id[0]->id))
+            {
               $alredy_exist= $alredy_exist+1;
+            }
+            else
+            {
+            $this->db->select('*');
+            $this->db->from('tblnpi_bulk');
+            $this->db->where('NPI',$single);
+            $fetched_data = $this->db->get()->result();
+            $tags = '';
+            $tag=$this->input->post('tag');
+            if (isset($tag))
+            {
+                $tags = $tag;
+                unset($tag);
+            }
+            $_assignee=$this->input->post('assignee');
+            $data_to_insert = array(
+                                     'hash'=>'',//app_generate_hash(),
+                                     'name'=>$fetched_data[0]->FirstName.$fetched_data[0]->LastName,
+                                     'title'=>'test',
+                                     'company'=>'test',
+                                     'description'=>'test',
+                                     'country'=>$fetched_data[0]->PracticeCountry,
+                                     'zip'=>$fetched_data[0]->PracticePostal,
+                                     'city'=>$fetched_data[0]->PracticeCity,
+                                     'state'=>$fetched_data[0]->PracticeState,
+                                     'address'=>$fetched_data[0]->FirstPracticeAddress,
+                                     'assigned'=>$_assignee,
+                                     'dateadded'=>date('Y-m-d H:i:s'),
+                                     'status'=>$this->input->post('status'),
+                                     'source'=>$this->input->post('source'),
+                                     'dateassigned'=>date('Y-m-d H:i:s'),
+                                     'addedfrom'=> get_staff_user_id(),
+                                     'email'=>$fetched_data[0]->NPI,
+                                     'website'=>'test',
+                                     'phonenumber'=>$fetched_data[0]->PracticeTelephone,
+                                     'number'=>$fetched_data[0]->NPI
+                                  );
 
-            }else{
-           $this->db->select('*');
-           $this->db->from('tblnpi_bulk');
-           $this->db->where('NPI',$single);
-           $fetched_data = $this->db->get()->result();
-           $data_to_insert = array(
-        'hash'=>'test',
-        'name'=>$fetched_data[0]->FirstName.$fetched_data[0]->LastName,
-        'title'=>'test',
-        'company'=>'test',
-        'description'=>'test',
-        'country'=>$fetched_data[0]->PracticeCountry,
-        'zip'=>$fetched_data[0]->PracticePostal,
-        'city'=>$fetched_data[0]->PracticeCity,
-        'state'=>$fetched_data[0]->PracticeState,
-        'address'=>$fetched_data[0]->FirstPracticeAddress,
-        'assigned'=>'test',
-        'dateadded'=>date('Y-m-d H:i:s'),
-        'from_form_id'=>'test',
-        'status'=>1,
-        'source'=>3,
-        'lastcontact'=>date('Y-m-d H:i:s'),
-        'dateassigned'=>'',
-        'last_status_change'=>'test',
-        'addedfrom'=>'test',
-        'email'=>'test',
-        'website'=>'test',
-        'phonenumber'=>$fetched_data[0]->PracticeTelephone,
-        'date_converted'=>'',
-        'lost'=>'test',
-        'junk'=>'test',
-        'last_lead_status'=>'',
-        'is_imported_from_email_integration'=>'test',
-        'email_integration_uid'=>'test',
-        'is_public'=>'test',
-        'default_language'=>'test',
-        'client_id'=>'test',
-        'number'=>$fetched_data[0]->NPI
-    );
-        if($this->db->insert('tblleads',$data_to_insert)){
-           $tagdata  = array(
-             'rel_id'=>1,
-             'rel_type'=>$tag,
-             'tag_id'=>1,
-             'tag_order'=>1
-           );
-         $ress =  $this->db->insert('tbltaggables',$tagdata);
-        
-           $Successfully = $Successfully+1;
-        }else{
+                     $this->db->insert(db_prefix() . 'leads', $data_to_insert);
+                     $insert_id = $this->db->insert_id();
+                     if ($insert_id)
+                     {
+                         log_activity('New Lead Added [ID: ' . $insert_id . ']');
+                         $this->leads_model->log_lead_activity($insert_id, 'not_lead_activity_created');
+                         if($tags!=null)
+                             handle_tags_save($tags, $insert_id, 'lead');
+                         if($_assignee!=null)
+                             $this->leads_model->lead_assigned_member_notification($insert_id, $_assignee);
 
-            $failed= $failed+1;
-        }
-    }
+                         hooks()->do_action('lead_created', $insert_id);
+                         $Successfully = $Successfully+1;
+                     }
+                     else
+                     {
+                      $failed= $failed+1;
+                     }
 
-    }
-    if(!empty($Successfully) && !empty($alredy_exist)){
-  $error = ['message'=>" $Successfully Records Imported Successfully and $alredy_exist Records already exists "];
-                echo json_encode($error);die;
+                 }
+            }
 
-}
-if(!empty($Successfully)){
-  $error = ['message'=>"Records Imported Successfully"];
-                echo json_encode($error);die;
-
-}
-if(!empty($alredy_exist)){
-  $error = ['message'=>"Records alredy exists"];
-                echo json_encode($error);die;
-
-}
-
-}
+            if(!empty($Successfully) && !empty($alredy_exist))
+            {
+             $error = ['message'=>" $Successfully Records Imported Successfully and $alredy_exist Records already exists "];
+             echo json_encode($error);die;
+             }
+            if(!empty($Successfully))
+            {
+             $error = ['message'=>"Records Imported Successfully"];
+             echo json_encode($error);die;
+            }
+            if(!empty($alredy_exist))
+            {
+             $error = ['message'=>"Records alredy exists"];
+             echo json_encode($error);die;
+            }
+     }
 }

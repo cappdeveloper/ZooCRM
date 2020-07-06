@@ -26,19 +26,17 @@ $where        = [];
 
 if ($this->ci->input->post('taxsources'))
 {
-
-    array_push($where, 'AND TaxonomyCode =207X00000X'); //. $this->ci->db->escape_str($this->ci->input->post('taxsources')));
+    array_push($where, 'AND TaxonomyCode ='. '"'.$this->ci->db->escape_str($this->ci->input->post('taxsources')).'"');
 }
-/*if ($this->ci->input->post('state'))
-{echo $this->ci->input->post('state');die;
-    array_push($where, 'AND PracticeState =' . $this->ci->input->post('state'));
+if ($this->ci->input->post('state'))
+{
+    array_push($where, 'AND PracticeState ='. '"'.$this->ci->db->escape_str($this->ci->input->post('state')).'"');
 }
 if ($this->ci->input->post('entity'))
 {
     array_push($where, 'AND EntityCode =' . $this->ci->db->escape_str($this->ci->input->post('entity')));
 
-   //print_r($where);
-}*/
+}
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable,[], $where, [/* Extra column you want to search*/]);
 

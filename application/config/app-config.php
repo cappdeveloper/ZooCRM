@@ -17,8 +17,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 * environments.
 *
 */
- define('APP_BASE_URL', 'http://localhost/CRMwork-master/');
-//define('APP_BASE_URL', 'http://localhost:9377/');
+// define('APP_BASE_URL', 'http://localhost/CRMwork-master/');
+define('APP_BASE_URL', 'http://localhost:9377/');
 /*
 * --------------------------------------------------------------------------
 * Encryption Key
@@ -50,7 +50,8 @@ define('APP_DB_PASSWORD', '');
 /**
  * The name of the database you want to connect to
  */
-define('APP_DB_NAME', 'crm_zoobook');
+//define('APP_DB_NAME', 'crm_zoobook');
+define('APP_DB_NAME', 'zoobook_maria_testing');
 
 /**
  * @since  2.3.0
