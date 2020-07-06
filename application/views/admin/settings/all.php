@@ -36,11 +36,11 @@
       </ul>
       <div class="panel_s">
        <div class="panel-body">
-        <a href="<?php echo admin_url('settings?group=update'); ?>" class="<?php if ($this->input->get('group') == 'update') {
+        <!--<a href="<?php echo admin_url('settings?group=update'); ?>" class="<?php if ($this->input->get('group') == 'update') {
           echo 'bold';
       } ?>">
           <?php echo _l('settings_update'); ?>
-        </a>
+        </a>-->
         <?php if (is_admin()) {
           ?>
           <hr class="hr-10" />

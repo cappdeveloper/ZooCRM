@@ -156,20 +156,13 @@ function app_init_admin_sidebar_menu_items()
                 'position' => 50,
         ]);
     }
-     if (has_permission('NPI_API', '', 'view')) {
-        $CI->app_menu->add_sidebar_menu_item('NPI API', [
-                'name'     => _l('NPI Api'),
-                'href'     => admin_url('Npi_api'),
-                'icon'     => 'fa fa-folder-open-o',
-                'position' => 51,
-        ]);
-    }
+
 	//Npi data menu
      if (has_permission('NPI_DATA', '', 'view')) {
         $CI->app_menu->add_sidebar_menu_item('NPI_data', [
-                'name'     => _l('NPI Data'),
+                'name'     => _l('Import NPI'),
                 'href'     => admin_url('Npi_Data'),
-                'icon'     => 'fa fa-folder-open-o',
+                'icon'     => 'fa fa-tty',
                 'position' => 52,
         ]);
     }

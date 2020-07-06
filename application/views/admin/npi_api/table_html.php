@@ -23,29 +23,29 @@
           'name'=>_l('Taxnomy Name'),
           'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-TaxName')
         ),
+           array(
+          'name'=>_l('Business Address'),
+          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-BAddress')
+        ),
+             array(
+          'name'=>_l('Business Phone'),
+          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-BPhone')
+        ),
          array(
           'name'=>_l('Practice Address'),
           'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-PAddress')
-        ),
-            array(
-          'name'=>_l('City'),
-          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-PCity')
-        ),
-            array(
-          'name'=>_l('State'),
-          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-PState')
         ),
            array(
           'name'=>_l('Practice Phone'),
           'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-PPhone')
         ),
-           array(
-          'name'=>_l('Business Phone'),
-          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-BPhone')
+          array(
+          'name'=>_l('State'),
+          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-PState')
         ),
-           array(
-          'name'=>_l('Country'),
-          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-country')
+        array(
+          'name'=>_l('City'),
+          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-PCity')
         ),
 
       );

@@ -9,13 +9,13 @@ $aColumns = [
     'FirstName',
     'LastName',
     'TaxonomyCode',
-    'FirstPracticeAddress',
-    'PracticeCity',
-    'PracticeState',
-    'PracticeTelephone',
+    'FirstLineBusinessMailingAddress',
     'BusinessTelephone',
-    'PracticeCountry'
-               ];
+    'FirstPracticeAddress',
+    'PracticeTelephone',
+    'PracticeState',
+    'PracticeCity',
+    ];
 /* Used for search by and Indexing*/
 
 $sIndexColumn ='NPI' ;
@@ -46,25 +46,25 @@ $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
     $row = [];
-    for ($i = 0; $i < count($aColumns); $i++) {
-        if($i ==4){
+    for ($i = 0; $i < count($aColumns); $i++)
+    {
+        if($i ==4)
+        {
             $_data = $aRow[$aColumns[$i]];
-            //$this->load('database');
             $this->ci->db->select('Tax_Name');
             $this->ci->db->from('tbltaxnomy_value');
             $this->ci->db->where('Tax_value', $_data);
             $taxonomy_code = $this->ci->db->get()->result();
             $t_code = $taxonomy_code[0]->Tax_Name ;
             $_data = $t_code;
-        }else{
-       $_data = $aRow[$aColumns[$i]];
+        }
+        else
+        {
+            $_data = $aRow[$aColumns[$i]];
+        }
+        $row[] = $_data;
     }
-       $row[] = $_data;
-    }
-
-
-
-    $output['aaData'][] = $row;
+ $output['aaData'][] = $row;
 }
 
 
