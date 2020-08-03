@@ -196,6 +196,8 @@ function load_admin_language($staff_id = '')
     $CI->lang->language  = [];
 
     $language = get_option('active_language');
+    if($language==null)
+        $language='english';
     if (is_staff_logged_in() || $staff_id != '') {
         $staff_language = get_staff_default_language($staff_id);
         if (!empty($staff_language)

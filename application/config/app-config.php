@@ -30,28 +30,24 @@ define('APP_BASE_URL', 'http://localhost:9377/');
 *
 * http://codeigniter.com/user_guide/libraries/encryption.html
 *
+
 * Auto added on install
 */
 define('APP_ENC_KEY', '33be543844cbe70d34988c3cd7167b9d');
-
-/**
- * Database Credentials
- * The hostname of your database server
- */
-define('APP_DB_HOSTNAME', 'localhost');
+define('APP_DB_HOSTNAME', '192.168.2.51');
 /**
  * The username used to connect to the database
  */
-define('APP_DB_USERNAME', 'root');
+define('APP_DB_USERNAME', 'zoobook_crm_user');
 /**
  * The password used to connect to the database
  */
-define('APP_DB_PASSWORD', '');
+define('APP_DB_PASSWORD', 'temp1234!');
 /**
  * The name of the database you want to connect to
  */
 //define('APP_DB_NAME', 'crm_zoobook');
-define('APP_DB_NAME', 'zoobook_maria_testing');
+define('APP_DB_NAME', 'crm_zoobook_live');
 
 /**
  * @since  2.3.0

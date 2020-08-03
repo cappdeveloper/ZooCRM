@@ -25,10 +25,18 @@
                                  <p class="bold"><?php echo _l('filter_by'); ?></p>
                               </div>
                          
+                               <div class="col-md-3 leads-filter-column">
+                                    <div class="input-group">
+                                       <span class="input-group-addon"><span class="fa fa-search"></span></span>
+                                   
+                                              <input type="text" class="form-control" id="NPI" placeholder="Enter NPI Number" name="NPI">
+                                        </div>
+ 
+                               </div>
                               
                               <div class="col-md-3 leads-filter-column">
                                  <?php
-                                 echo render_select('view_taxsources',$taxsources,array('Tax_value','Tax_Name'),'','',array('data-width'=>'100%','data-none-selected-text'=>'Taxnomy Name'),array(),'no-mbot');
+                                 echo render_select('view_taxsources',$taxsources,array('Tax_Name','Tax_Name'),'','',array('data-width'=>'100%','data-none-selected-text'=>'Taxnomy Name'),array(),'no-mbot');
                                  ?>
                               </div>
 
@@ -168,8 +176,47 @@
                                           </select>
                                      </div>
 
+                                                         
 
-                              
+
+                               
+                                 
+                             </div>
+                               </div>
+                             <hr class="hr-panel-heading" />
+                          <div class="col-md-12">
+                           <div class="row">
+                               <div class="col-md-3 leads-filter-column">
+                                    <div class="input-group">
+                                       <span class="input-group-addon"><span class="fa fa-search"></span></span>
+                                   
+                                              <input type="text" class="form-control" id="City" placeholder="Enter City" name="City">
+                                        </div>
+ 
+                               </div>                                                 
+
+
+                               <div class="col-md-3 leads-filter-column">
+                                   <div class="input-group">
+                                       <span class="input-group-addon"><span class="fa fa-search"></span></span>
+                                              <input type="text" class="form-control" id="PostalCode" placeholder="Enter Postal Code" name="PostalCode">
+                                            </div>
+                             
+                               </div>
+
+
+                               <div class="col-md-3 leads-filter-column">
+                                    <div class="input-group">
+                                       <a id="npi_search" name="npi_search" class="btn btn-success pull-right mright5">Search</a>
+                                        </div>
+ 
+                               </div>
+                        </div>
+                              </div>
+
+
+
+
                            </div>
                         </div>
                         <div class="clearfix"></div>
@@ -193,9 +240,6 @@
             </div>
          </div>
       </div>
-   </div>
-</div>
-
 
   <!-- Modal -->
   <div class="modal fade" id="tagModal" role="dialog">
@@ -217,7 +261,7 @@
           </select>-->
              <div class="form-group">
               <?php echo '<p><b><i class="fa fa-tag" aria-hidden="true"></i> ' . _l('tags') . ':</b></p>'; ?>
-               <input type="text" class="tagsinput" id="tags_bulk" name="tags_bulk" value="" data-role="tagsinput">
+               <input type="text" class="tagsinput" id="tags_bulk" name="tags_bulk"  data-role="tagsinput">
             </div>    
         <?php
            echo render_leads_status_select($statuses, ($this->input->post('status') ? $this->input->post('status') : get_option('leads_default_status')),'lead_import_status','status', [], true);
@@ -239,49 +283,23 @@
 
                            
      <?php init_tail(); ?>
-  <script type="text/javascript">
-
-    /* Parameter Name for Option Dropdown */
-    var NPIServerParams = {
-        "taxsources": "[name='view_taxsources']",
-        "state": "[name='view_state']",
-        "entity": "[name='view_entity']",
-
-    };
-
-    /* Ajax call on drop down Change*/
-    table_npi = $('table.table-npi_data');
-    _table_api = initDataTable(table_npi, admin_url + 'Npi_data/table', undefined, undefined, NPIServerParams);
-    $.each(NPIServerParams, function (i, obj) {
-        $('select' + obj).on('change', function () {
-
-            table_npi.DataTable().ajax.reload()
-                .columns.adjust()
-                .responsive.recalc();
-        });
-    });
-
-    $(document).on('click', '#bulk', function () {
-        $('#tagModal').modal();
-
-    });
-
-      $(document).ready(function () {
-          $('.npi_save').click(function () {
+<script type="text/javascript">
+  $(document).ready(function () {
+      $('.npi_save').click(function () {
               var _tags = $('#tags_bulk').val();
               var _status = $('#status').val();
               var _source = $('#source').val();
               var _assignee = $('#responsible').val();
-              var Npi_Number = [];
-
-              $('.sorting_1').each(function () {
-                  Npi_Number.push($(this).html());
-              });
-
+              var table = $('#table-npi_data').DataTable();
+          var data = table
+              .rows()
+              .data().toArray();
+          var myJSON = JSON.stringify(data);
+                  
               $.ajax({
-                  url: "<?php echo site_url("admin/Npi_Data/NPI_page_bulk_import") ?>",
+               url: "<?php echo site_url("admin/Npi_Data/NPI_page_bulk_import") ?>",
                   type: 'POST',
-                  data: { res: Npi_Number, tag: _tags, status: _status, source: _source, assignee: _assignee },
+                  data: { res: myJSON, tag: _tags, status: _status, source: _source, assignee: _assignee },
                   success: function (result) {
                       $("#tagModal").modal("hide");
                       var message = $.parseJSON(result);
@@ -290,13 +308,41 @@
 
                   }
               });
-          })
+          });
       });
 
-       
+    /* Parameter Name for Option Dropdown */
+    var NPIServerParams = {
+        "taxsources": "[name='view_taxsources']",
+        "state": "[name='view_state']",
+        "entity": "[name='view_entity']",
+        "npi": "[name='NPI']",
+        "city": "[name='City']",
+        "postal": "[name='PostalCode']",
+
+    };
+
+    /* Ajax call on drop down Change*/
+      table_npi = $('table.table-npi_data');
+      //NPIServerParams.npi = $('#NPI').val();
+      //NPIServerParams.city = $('#NPI').val();
+      _table_api = initDataTable(table_npi, admin_url + 'Npi_data/table', undefined, undefined, NPIServerParams);
+      $(document).on('click', '#npi_search', function () {
+           table_npi.DataTable().ajax.reload()
+                .columns.adjust()
+                .responsive.recalc();
+            });
+
+    $(document).on('click', '#bulk', function () {
+        $('#tagModal').modal();
+
+    });
 
 
-  </script>
+
+
+
+</script>
 
 </body>
 </html>

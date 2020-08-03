@@ -148,12 +148,14 @@ class Npi_Data extends AdminController
         $Successfully=0;
         $failed=0;
         $alredy_exist=0;
+        $_Values=$this->input->post()['res'];
+        $json = json_decode($_Values);
 
-        foreach($this->input->post()['res'] as $single)
+        foreach($json as $single)
         {
             $this->db->select('id');
             $this->db->from('tblleads');
-            $this->db->where('number', $single);
+            $this->db->where('number', $single[0]);
             $id = $this->db->get()->result();
 
             if(!empty($id[0]->id))
@@ -162,10 +164,6 @@ class Npi_Data extends AdminController
             }
             else
             {
-            $this->db->select('*');
-            $this->db->from('tblnpi_bulk');
-            $this->db->where('NPI',$single);
-            $fetched_data = $this->db->get()->result();
             $tags = '';
             $tag=$this->input->post('tag');
             if (isset($tag))
@@ -176,25 +174,25 @@ class Npi_Data extends AdminController
             $_assignee=$this->input->post('assignee');
             $data_to_insert = array(
                                      'hash'=>'',//app_generate_hash(),
-                                     'name'=>$fetched_data[0]->FirstName.$fetched_data[0]->LastName,
-                                     'title'=>'test',
-                                     'company'=>'test',
+                                     'name'=>$single[3]." ".$single[4],
+                                     'title'=>'NPI DATA',
+                                     'company'=>$single[2],
                                      'description'=>'test',
-                                     'country'=>$fetched_data[0]->PracticeCountry,
-                                     'zip'=>$fetched_data[0]->PracticePostal,
-                                     'city'=>$fetched_data[0]->PracticeCity,
-                                     'state'=>$fetched_data[0]->PracticeState,
-                                     'address'=>$fetched_data[0]->FirstPracticeAddress,
+                                     'country'=>'USA',
+                                     'zip'=>$single[11].",".$single[12],
+                                     'city'=>$single[8],
+                                     'state'=>$single[7],
+                                     'address'=>$single[6],
                                      'assigned'=>$_assignee,
                                      'dateadded'=>date('Y-m-d H:i:s'),
                                      'status'=>$this->input->post('status'),
                                      'source'=>$this->input->post('source'),
                                      'dateassigned'=>date('Y-m-d H:i:s'),
                                      'addedfrom'=> get_staff_user_id(),
-                                     'email'=>$fetched_data[0]->NPI,
+                                     'email'=>$single[0],
                                      'website'=>'test',
-                                     'phonenumber'=>$fetched_data[0]->PracticeTelephone,
-                                     'number'=>$fetched_data[0]->NPI
+                                     'phonenumber'=>$single[9].",".$single[10],
+                                     'number'=>$single[0]
                                   );
 
                      $this->db->insert(db_prefix() . 'leads', $data_to_insert);

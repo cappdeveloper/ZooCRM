@@ -32,12 +32,12 @@ class npi_model extends App_Model
         if (is_numeric($id)) {
             $this->db->where('id', $id);
 
-            return $this->db->get(db_prefix() . 'taxnomy_value')->row();
+            return $this->db->get(db_prefix() . 'taxnomy_code')->row();
         }
 
-           $this->db->order_by('Tax_name', 'asc');
+           $this->db->order_by('Tax_Name', 'asc');
 
-          return $this->db->get(db_prefix() . 'taxnomy_value')->result_array();
+          return $this->db->get(db_prefix() . 'taxnomy_code')->result_array();
     }
 
 
